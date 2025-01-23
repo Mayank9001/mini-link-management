@@ -3,7 +3,8 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const userRoutes = require('./routes/user');
+const userRoutes = require("./routes/user");
+const linkRoutes = require("./routes/link");
 
 dotenv.config({});
 
@@ -15,6 +16,7 @@ app.get("/", (req, res) => {
   res.status(200).send({ status: "success", msg: "API is working well." });
 });
 app.use("/user", userRoutes);
+app.use("/link", linkRoutes);
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
