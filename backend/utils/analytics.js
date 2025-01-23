@@ -28,7 +28,17 @@ const getUserClickAnalytics = async (userId) => {
       },
       { $sort: { _id: -1 } },
     ]);
-    return { deviceTypeClicks, dateWiseClicks };
+    const userLinks = await Link.find({ userId: userId });
+
+    // total clicks
+    const totalClick = await Link.aggregate([
+      { $match: { userId: new mongoose.Types.ObjectId(userId) } }, // Match the user's links
+      { $group: { _id: null, totalClicks: { $sum: "$clicks" } } }, // Sum the clicks
+    ]);
+
+    // Return the total clicks or 0 if no links are found
+    const totalClicks = totalClick.length > 0 ? totalClick[0].totalClicks : 0;
+    return { deviceTypeClicks, dateWiseClicks, totalClicks };
   } catch (error) {
     console.error("Error fetching user analytics:", error);
     throw error;

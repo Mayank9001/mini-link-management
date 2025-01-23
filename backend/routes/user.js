@@ -148,10 +148,11 @@ router.get("/dashboard", auth, async (req, res) => {
     const analytics = await getUserClickAnalytics(userId);
     const dateWiseClicks = analytics.dateWiseClicks;
     const deviceTypeClicks = analytics.deviceTypeClicks;
+    const totalClicks = analytics.totalClicks;
     res.status(200).json({
       status: true,
       message: "Analytics fetched successfully!",
-      data: {dateWiseClicks, deviceTypeClicks},
+      data: { dateWiseClicks, deviceTypeClicks, totalClicks },
     });
   } catch (error) {
     console.log(error);
