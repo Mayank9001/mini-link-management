@@ -20,7 +20,7 @@ const linkSchema = new Schema({
     type: Date, // If null or not set, the link doesn't expire
     default: null,
   },
-  shortenedLink: {
+  shortLink: {
     type: String,
     required: true,
     unique: true,

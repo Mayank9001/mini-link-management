@@ -4,6 +4,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth.js");
 const User = require("../models/user.model");
+const { getUserClickAnalytics } = require("../utils/analytics");
 
 router.post("/register", async (req, res) => {
   const { name, email, password, mobileNo, confirmPassword } = req.body;
@@ -128,6 +129,30 @@ router.delete("/delete", auth, async (req, res) => {
     return res
       .status(200)
       .json({ success: true, message: "User Deleted Succesfully" });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ success: "Error", message: "Internal Server Error !!" });
+  }
+});
+
+router.get("/dashboard", auth, async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const user = await User.findById({ _id: userId });
+    if (!user) {
+      return res.status(400).json({ success: false, message: "Invalid User" });
+    }
+    // console.log(userId);
+    const analytics = await getUserClickAnalytics(userId);
+    const dateWiseClicks = analytics.dateWiseClicks;
+    const deviceTypeClicks = analytics.deviceTypeClicks;
+    res.status(200).json({
+      status: true,
+      message: "Analytics fetched successfully!",
+      data: {dateWiseClicks, deviceTypeClicks},
+    });
   } catch (error) {
     console.log(error);
     return res
