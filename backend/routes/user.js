@@ -152,7 +152,7 @@ router.get("/dashboard", auth, async (req, res) => {
     res.status(200).json({
       status: true,
       message: "Analytics fetched successfully!",
-      data: { dateWiseClicks, deviceTypeClicks, totalClicks },
+      data: { user, dateWiseClicks, deviceTypeClicks, totalClicks },
     });
   } catch (error) {
     console.log(error);
