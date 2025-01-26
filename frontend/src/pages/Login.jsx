@@ -9,8 +9,8 @@ const Login = () => {
     const navigate = useNavigate();
     
     const [formData, setFormData] = useState({
-        email: "",
-        password:"",
+        email: "admin@gmail.com",
+        password:"admin123",
     });
     const [error, setError] = useState("");
     const validateInput = () => {
@@ -34,6 +34,7 @@ const Login = () => {
                 console.log(data);
                 localStorage.setItem("token", data.token);
                 alert(data.message);
+                navigate('/dashboard');
             }
             else{
                 alert(data.message);
@@ -41,6 +42,10 @@ const Login = () => {
         } catch (error) {
             console.log(error);
         }
+        setFormData({
+            email: "",
+            password:"",
+        });
     };
 
     return (
@@ -60,12 +65,9 @@ const Login = () => {
                     <div className={styles.email}>
                         <input type='text' value={formData.email} placeholder='Email id'
                         onChange={(e) => setFormData({...formData, email:e.target.value})} 
-                        style={error.email && { border: "1px solid red" }}required/>
-                        <p style={{ visibility: error.email ? "visible" : "hidden" }}>
-                            {error.email || "Field Requires"}
-                        </p>
+                         required/>
                     </div>
-                    <div>
+                    <div className={styles.pass}>
                         <input 
                             type='password' value={formData.password} placeholder='Password' onChange={(e) => setFormData({ ...formData, password: e.target.value })} 
                             required/>

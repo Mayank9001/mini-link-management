@@ -1,0 +1,123 @@
+.main{
+    width: 75%;
+    height: 15vh;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    position: sticky;
+    float: right;
+}
+.searchicon{
+    width: 16px;
+    height: 16px;  
+}
+.sun{
+    margin: 0 5px 0 5px;
+}
+.greet{
+    margin-right: 5rem;
+    width: 20rem;
+    height: 2.5rem;
+    display: flex;
+}
+.gm{
+    font-family: "Manrope";
+    font-weight: 700;
+    font-size: 25px;
+    margin: 0;
+    line-height: 22px;
+}
+.fDate{
+    font-family: "Manrope";
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 17px;
+}
+.searchdiv{
+    position: relative;
+    /* left: 7rem; */
+    margin-left: 10rem;
+    display: flex;
+    gap: 1rem;
+    height: 2.5rem;
+    width: 40%;
+    flex-direction: row;
+}
+.createBtn button{
+    background-color: #1B48DA;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    width: 9rem;
+    height: 100%;
+    font-family: "Manrope";
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    border: 1px solid #1B48DA;
+    gap: 4px;
+    text-align: center;
+    padding-left: 10px;
+    /* padding: 10px 14px 10px 14px; */
+}
+.plusbtn{
+    font-size: 2rem;
+    margin-right: 5px;
+    margin-left: 0;
+    font-weight: normal;
+}
+.search{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 70%;
+    /* gap: 8px; */
+}
+.search img{
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+    left: 1rem;
+    top: 0.5rem;
+}
+.search input{
+    /* height: 3rem; */
+    border-radius: 8px;
+    border: 2px solid #ECECF2;
+    width: 100%;
+    font-size: 1rem;
+    padding-left: 2.4rem;
+    margin-left: -1rem;
+}
+.logout button{
+    background-color: #FDE48A;
+    margin-left: 4rem;
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    position: relative;
+    /* left: 20rem; */
+    font-family: "Manrope";
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1rem;
+    text-align: center;
+    color: #923E0E;
+}
+.logoutBtn{
+    position: absolute;
+    bottom: -0.1rem;
+    border: 1px solid #ECECF2;
+    right: 2.5rem;
+    width: 7rem;
+    height: 2rem;
+    background-color: #ffffff;
+    color: #878BA9;
+    border-radius: 0.2rem;
+    font-family: 'Manrope';
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 0.5rem;
+}
