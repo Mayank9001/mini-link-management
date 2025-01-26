@@ -7,7 +7,7 @@ import { userLogin } from '../services/user.services';
 
 const Login = () => {
     const navigate = useNavigate();
-
+    
     const [formData, setFormData] = useState({
         email: "",
         password:"",
@@ -59,7 +59,11 @@ const Login = () => {
                 <form onSubmit={handleSubmit}>
                     <div className={styles.email}>
                         <input type='text' value={formData.email} placeholder='Email id'
-                        onChange={(e) => setFormData({...formData, email:e.target.value})} required/>
+                        onChange={(e) => setFormData({...formData, email:e.target.value})} 
+                        style={error.email && { border: "1px solid red" }}required/>
+                        <p style={{ visibility: error.email ? "visible" : "hidden" }}>
+                            {error.email || "Field Requires"}
+                        </p>
                     </div>
                     <div>
                         <input 

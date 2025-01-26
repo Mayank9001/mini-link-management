@@ -81,9 +81,10 @@ const Signup = () => {
                       <input type='text' value={formData.mobileNo} placeholder='Mobile no.'
                       onChange={(e) => setFormData({...formData, mobileNo:e.target.value})} required/>
                   </div>
-                  <div>
+                  <div className={styles.pass}>
                       <input 
-                          type='password' value={formData.password} placeholder='Password' onChange={(e) => setFormData({ ...formData, password: e.target.value })} 
+                          type='password' value={formData.password} placeholder='Password' 
+                          onChange={(e) => setFormData({ ...formData, password: e.target.value })} 
                           required/>
                   </div>
                   <div className={styles.cnfpass}>
