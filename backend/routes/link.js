@@ -12,13 +12,17 @@ router.post("/create", auth, async (req, res) => {
     return res.status(400).json({ status: false, message: "user not found !" });
   }
   const { originalLink, remarks, expirationDate } = req.body;
+  // console.log(req.body);
+  // console.log(originalLink);
+  // console.log(remarks);
+  // console.log(expirationDate);
   try {
     // const user = await User.findOne(id);
     const newexpirationDate = expirationDate ? new Date(expirationDate) : null;
-    
+    const salt = crypto.randomBytes(16).toString('hex');
     const shortLink = crypto
       .createHash("sha256")
-      .update(originalLink)
+      .update(originalLink + salt)
       .digest("hex")
       .slice(0, 10);
 

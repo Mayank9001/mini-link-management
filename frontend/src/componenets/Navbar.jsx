@@ -21,7 +21,10 @@ const Navbar = () => {
     };
     const date = new Date(Date.now());
     const formattedDate = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(date);
-
+    const handleLogout = () =>{
+        localStorage.removeItem("token");
+        navigate('/');
+    };
   return (
     <>
         <div className={styles.main}>
@@ -51,7 +54,7 @@ const Navbar = () => {
                 </button>
             </div>
             {islogout && (
-                <button className={styles.logoutBtn} onClick={()=>navigate('/')}>Logout</button>
+                <button className={styles.logoutBtn} onClick={handleLogout}>Logout</button>
             )}
         </div>
         {isModalOpen && <CreateModal onClose={()=>setIsModalOpen(false)}/>}

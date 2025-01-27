@@ -81,7 +81,7 @@ router.post("/login", async (req, res) => {
     const { password: hashedPass, ...userDetails } = user._doc;
     res.status(200).json({
       success: true,
-      message: "Login Successfull",
+      message: "Login Successfull!!",
       token: token,
       user: userDetails,
     });
