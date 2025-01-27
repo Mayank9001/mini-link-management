@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.get("/", (req, res) => {
-  res.status(200).send({ status: "success", msg: "API is working well." });
+  res.status(200).send({ status: "success", msg: "Mini Link API's is working well." });
 });
 app.use("/user", userRoutes);
 app.use("/link", linkRoutes);

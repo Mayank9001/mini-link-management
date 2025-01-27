@@ -6,7 +6,7 @@ const User = require("../models/user.model");
 const VisitLog = require("../models/visitLogs.model");
 const Link = require("../models/link.model");
 
-router.post("/create", auth, async (req, res) => {
+router.post("/create", auth, async (req, res) => {  
   const id = req.user.id;
   if (!id) {
     return res.status(400).json({ status: false, message: "user not found !" });
@@ -15,7 +15,7 @@ router.post("/create", auth, async (req, res) => {
   try {
     // const user = await User.findOne(id);
     const newexpirationDate = expirationDate ? new Date(expirationDate) : null;
-
+    
     const shortLink = crypto
       .createHash("sha256")
       .update(originalLink)
@@ -143,7 +143,5 @@ router.post("/visit", async (req, res) => {
       .json({ status: false, message: "Internal Server Error" });
   }
 });
-
-
 
 module.exports = router;

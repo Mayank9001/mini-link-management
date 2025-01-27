@@ -4,6 +4,8 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth.js");
 const User = require("../models/user.model");
+const Link = require("../models/link.model");
+
 const { getUserClickAnalytics } = require("../utils/analytics");
 
 router.post("/register", async (req, res) => {
@@ -40,7 +42,7 @@ router.post("/register", async (req, res) => {
 
     res
       .status(200)
-      .json({ success: true, message: "User Registed Succesfully" });
+      .json({ success: true, message: "User Registed Succesfully!!" });
   } catch (error) {
     console.error(error);
     return res
@@ -63,13 +65,13 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid Email or Password" });
+        .json({ success: false, message: "User not found!!" });
     }
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid Email or Password" });
+        .json({ success: false, message: "Invalid Password" });
     }
     const payload = { id: user._id, name: user.name };
     const token = jwt.sign(payload, process.env.SECRET_KEY, {
@@ -122,7 +124,7 @@ router.put("/update", auth, async (req, res) => {
 router.delete("/delete", auth, async (req, res) => {
   const id = req.user.id;
   try {
-    const user = await User.findByIdAndDelete(req.user.id);
+    const user = await User.findByIdAndDelete(id);
     if (!user) {
       return res.status(400).json({ success: false, message: "Invalid User" });
     }
@@ -145,14 +147,16 @@ router.get("/dashboard", auth, async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid User" });
     }
     // console.log(userId);
+    const links = await Link.find({ userId:userId});
+    // console.log(links);
     const analytics = await getUserClickAnalytics(userId);
     const dateWiseClicks = analytics.dateWiseClicks;
     const deviceTypeClicks = analytics.deviceTypeClicks;
     const totalClicks = analytics.totalClicks;
     res.status(200).json({
       status: true,
-      message: "Analytics fetched successfully!",
-      data: { user, dateWiseClicks, deviceTypeClicks, totalClicks },
+      message: "Data fetched successfully!",
+      data: { user, totalClicks, dateWiseClicks, deviceTypeClicks, links },
     });
   } catch (error) {
     console.log(error);
