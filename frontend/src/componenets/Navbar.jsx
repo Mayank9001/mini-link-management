@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import styles from './Navbar.module.css';
 import Frame from '../assets/Frame.svg';
 import { useNavigate } from 'react-router-dom';
+import CreateModal from '../modals/CreateModal';
 
 const Navbar = () => {
     const navigate = useNavigate();
     const [islogout, setIsLogout] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const initials = (name) => {
         const words = name.split(" ");
         if (words.length === 1) {
@@ -36,7 +38,7 @@ const Navbar = () => {
             </div>
             <div className={styles.searchdiv}>
                 <div className={styles.createBtn}>
-                    <button><span className={styles.plusbtn}>+</span>Create new</button>
+                    <button onClick={()=>setIsModalOpen(true)}><span className={styles.plusbtn}>+</span>Create new</button>
                 </div>
                 <div className={styles.search}>
                     <img src={Frame} alt='search icon' />
@@ -52,6 +54,7 @@ const Navbar = () => {
                 <button className={styles.logoutBtn} onClick={()=>navigate('/')}>Logout</button>
             )}
         </div>
+        {isModalOpen && <CreateModal onClose={()=>setIsModalOpen(false)}/>}
    </> 
   )
 }

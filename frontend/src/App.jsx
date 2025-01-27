@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 import Links from './pages/Links';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
+import CreateModal from './modals/CreateModal';
 
 
 function App() {

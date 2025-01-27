@@ -1,8 +1,12 @@
 import React from 'react'
+import Dashboard from './Dashboard'
 
 const Settings = () => {
   return (
-    <div>Settings</div>
+    <>
+      <Dashboard />
+      <div>Settings</div>
+    </>
   )
 }
 

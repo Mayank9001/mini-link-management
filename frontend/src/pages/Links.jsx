@@ -1,8 +1,12 @@
 import React from 'react'
+import Dashboard from './Dashboard'
 
 const Links = () => {
   return (
-    <div>Links</div>
+    <>
+      <Dashboard />
+      <div>Links</div>
+    </>
   )
 }
 

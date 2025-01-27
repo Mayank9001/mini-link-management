@@ -1,8 +1,12 @@
 import React from 'react'
+import Dashboard from './Dashboard';
 
 const Analytics = () => {
   return (
-    <div>Analytics</div>
+    <>
+      <Dashboard />
+      <div>Analytics</div>
+    </>
   )
 }
 
