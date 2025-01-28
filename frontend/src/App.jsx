@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css'
 import { ToastContainer } from 'react-toastify';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -9,11 +9,8 @@ import Dashboard from './pages/Dashboard';
 import Links from './pages/Links';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
-import CreateModal from './modals/CreateModal';
-
 
 function App() {
-
   return (
     <>
       <ToastContainer position="bottom-right" theme="colored" closeButton={true} autoClose={3000}/>

@@ -57,3 +57,10 @@
     background-color: #F3F7FD;
     color: #1B48DA;
 }
+.settings{
+    height: 5rem;
+    padding-top: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-top: 0.2rem solid #F6F6F9;
+    border-bottom: 0.2rem solid #F6F6F9;
+}
