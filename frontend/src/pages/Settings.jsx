@@ -4,9 +4,11 @@ import styles from './Settings.module.css'
 import { jwtDecode } from 'jwt-decode'
 import { userUpdate, userDelete } from '../services/user.services'
 import { useNavigate } from 'react-router-dom'
+import AccountModal from '../modals/AccountModal';
 
 const Settings = () => {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState();
   const [newData, setNewData] = useState({
     newEmail:"",
@@ -56,6 +58,7 @@ const Settings = () => {
         if(res.status===200)
         {
           console.log(data.message);
+          localStorage.removeItem("token");
           navigate('/');
         }
         else{
@@ -90,10 +93,11 @@ const Settings = () => {
             <button onClick={handleSaveChange}>Save Changes</button>
           </div>
           <div className={styles.delete}>
-            <button onClick={handleDelete}>Delete Account</button>
+            <button onClick={()=>setIsModalOpen(true)}>Delete Account</button>
           </div>
         </div>
       </div>
+      {isModalOpen && <AccountModal onClose={()=>setIsModalOpen(false)} />}
     </>
   )
 }

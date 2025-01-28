@@ -7,7 +7,6 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Links from './pages/Links';
-// import EditModal from './modals/EditModal';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
 
@@ -23,7 +22,6 @@ function App() {
           <Route path='/links' element={<Links />} />
           <Route path='/analytics' element={<Analytics />} />
           <Route path='/settings' element={<Settings />} />
-          {/* <Route path='/edit' element={<EditModal />} /> */}
         </Routes>
       </Router>
     </>
