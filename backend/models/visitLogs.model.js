@@ -12,12 +12,12 @@ const VisitLogSchema = new mongoose.Schema({
   },
   deviceType: {
     type: String,
-    enum: ["Mobile", "Desktop", "Tablet", "Other"], // Represents the type of device
+    enum: ["Mobile", "Desktop", "Tablet"], // Represents the type of device
     required: true,
   },
   platform: {
     type: String,
-    enum: ["Android", "iOS", "Chrome", "Firefox", "Safari", "Edge", "Windows"], // Represents the operating system or browser
+    enum: ["Android", "iOS", "Chrome", "Windows"], // Represents the operating system or browser
     required: true,
   },
   ipAddress: {
