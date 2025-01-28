@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth.js");
 const User = require("../models/user.model");
 const Link = require("../models/link.model");
+const VisitLog = require("../models/visitLogs.model");
 
 const { getUserClickAnalytics } = require("../utils/analytics");
 
@@ -73,7 +74,12 @@ router.post("/login", async (req, res) => {
         .status(400)
         .json({ success: false, message: "Invalid Password" });
     }
-    const payload = { id: user._id, name: user.name, email:user.email, mobileNo:user.mobileNo, };
+    const payload = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      mobileNo: user.mobileNo,
+    };
     const token = jwt.sign(payload, process.env.SECRET_KEY, {
       expiresIn: "24h",
     });
@@ -124,10 +130,21 @@ router.put("/update", auth, async (req, res) => {
 router.delete("/delete", auth, async (req, res) => {
   const id = req.user.id;
   try {
+    // const links = Link.find({ userId: id });
+    // const visits = await VisitLog.
     const user = await User.findByIdAndDelete(id);
     if (!user) {
       return res.status(400).json({ success: false, message: "Invalid User" });
     }
+    const userLinks = await Link.find({ userId: id });
+    // console.log("userLinks", userLinks);
+    const shortLinks = userLinks.map((link) => link.shortLink);
+    // console.log("ShortLinks", shortLinks);
+    // Delete all links associated with the user
+    await Link.deleteMany({ userId: id });
+
+    // Delete all visit logs associated with the user's links
+    await VisitLog.deleteMany({ shortLink: { $in: shortLinks } });
     return res
       .status(200)
       .json({ success: true, message: "Account Deleted Succesfully!!" });
@@ -147,8 +164,8 @@ router.get("/dashboard", auth, async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid User" });
     }
     // console.log(userId);
-    const links = await Link.find({ userId:userId});
-    // console.log(links);
+    const links = await Link.find({ userId: userId });
+    console.log(links);
     const analytics = await getUserClickAnalytics(userId);
     const dateWiseClicks = analytics.dateWiseClicks;
     const deviceTypeClicks = analytics.deviceTypeClicks;
