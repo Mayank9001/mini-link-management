@@ -73,7 +73,7 @@ router.post("/login", async (req, res) => {
         .status(400)
         .json({ success: false, message: "Invalid Password" });
     }
-    const payload = { id: user._id, name: user.name };
+    const payload = { id: user._id, name: user.name, email:user.email, mobileNo:user.mobileNo, };
     const token = jwt.sign(payload, process.env.SECRET_KEY, {
       expiresIn: "24h",
     });
@@ -130,7 +130,7 @@ router.delete("/delete", auth, async (req, res) => {
     }
     return res
       .status(200)
-      .json({ success: true, message: "User Deleted Succesfully" });
+      .json({ success: true, message: "Account Deleted Succesfully!!" });
   } catch (error) {
     console.log(error);
     return res

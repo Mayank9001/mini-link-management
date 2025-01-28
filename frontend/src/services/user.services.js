@@ -20,3 +20,24 @@ export const userRegister = async (data) => {
     body: JSON.stringify(data),
   });
 };
+
+export const userUpdate = async(data)=>{
+  return fetch(`${URL}/user/update`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("token")}`
+      },
+    body: JSON.stringify(data),
+  })
+};
+
+export const userDelete = async()=>{
+  return fetch(`${URL}/user/delete`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("token")}`
+    },
+  })
+};

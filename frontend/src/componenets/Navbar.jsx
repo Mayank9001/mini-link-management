@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './Navbar.module.css';
 import Frame from '../assets/Frame.svg';
+import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import CreateModal from '../modals/CreateModal';
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const [user, setUser] = useState();
     const [islogout, setIsLogout] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const initials = (name) => {
@@ -23,8 +25,34 @@ const Navbar = () => {
     const formattedDate = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(date);
     const handleLogout = () =>{
         localStorage.removeItem("token");
+        console.log("Logged Out Successfully!!!");
         navigate('/');
     };
+    const getuser = () => {
+        const token = localStorage.getItem("token");
+        if (token) {
+          try {
+            const data = jwtDecode(token);
+            // console.log("Decoded Token Data:", data);
+            setUser(data);
+          } catch (error) {
+            console.log("Failed to decode token:", error);
+          }
+        }
+    };
+
+    useEffect(() => {
+        getuser();
+    }, []);
+
+    // console.log("User", user);
+    // if (user) {
+    // console.log("name", user.name);
+    // console.log("email", user.email);
+    // console.log("id", user.id);
+    // console.log("mobile", user.mobileNo);
+    // }
+
   return (
     <>
         <div className={styles.main}>
@@ -34,7 +62,7 @@ const Navbar = () => {
                     </span>
                 </div>
                 <div className={styles.gm}>
-                    <span>Good morning, {"Mayank"}</span>
+                    <span>Good morning, {user? user.name:""}</span>
                     <br/>
                     <span className={styles.fDate}>{formattedDate}</span>
                 </div>
@@ -50,7 +78,7 @@ const Navbar = () => {
             </div>
             <div className={styles.logout}>
                 <button onClick={()=>setIsLogout(!islogout)}>
-                    {initials("Mayank")}
+                    {initials(user ? user.name:"")}
                 </button>
             </div>
             {islogout && (

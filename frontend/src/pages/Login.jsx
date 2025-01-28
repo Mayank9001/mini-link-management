@@ -31,9 +31,10 @@ const Login = () => {
             const data = await res.json();
             if(res.status === 200)
             {
-                console.log(data);
+                // console.log(data);
                 localStorage.setItem("token", data.token);
-                alert(data.message);
+                console.log(data.message);
+                // alert(data.message);
                 navigate('/dashboard');
             }
             else{
