@@ -106,42 +106,4 @@ router.get("/getalllinks", auth, async (req, res) => {
     .json({ status: true, message: "Links found !", links: links });
 });
 
-// router.post("/visit", async (req, res) => {
-//   const { shortlink, originalLink, deviceType, platform, ipAddress } = req.body;
-//   try {
-//     const visit = new VisitLog({
-//       shortLink: shortlink,
-//       originalLink: originalLink,
-//       deviceType: deviceType,
-//       platform: platform,
-//       ipAddress: ipAddress,
-//       // userId: userId,
-//     });
-//     const updatedLink = await Link.findOneAndUpdate(
-//       { shortLink: shortlink }, // Find the link by shortLink
-//       { $inc: { clicks: 1 } }, // Increment the clicks count by 1
-//       { new: true } // Return the updated document
-//     );
-
-//     if (!updatedLink) {
-//       return res.status(404).json({
-//         status: false,
-//         message: "Short link not found in the database!",
-//       });
-//     }
-//     await visit.save();
-
-//     return res.status(200).json({
-//       status: true,
-//       message: "Visit logged and clicks count updated successfully!",
-//       updatedLink,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return res
-//       .status(500)
-//       .json({ status: false, message: "Internal Server Error" });
-//   }
-// });
-
 module.exports = router;
