@@ -40,12 +40,10 @@ router.post("/register", async (req, res) => {
       mobileNo: mobileNo,
     });
     await newUser.save();
-
     res
       .status(200)
       .json({ success: true, message: "User Registed Succesfully!!" });
   } catch (error) {
-    console.error(error);
     return res
       .status(500)
       .json({ success: false, message: "Internal Server Error !!" });
@@ -118,7 +116,7 @@ router.put("/update", auth, async (req, res) => {
     });
     res
       .status(200)
-      .json({ success: true, message: "User Updated Successfully" });
+      .json({ success: true, message: "Changes Saved Successfully" });
   } catch (error) {
     console.log(error);
     return res

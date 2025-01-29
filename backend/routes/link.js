@@ -12,10 +12,6 @@ router.post("/create", auth, async (req, res) => {
     return res.status(400).json({ status: false, message: "user not found !" });
   }
   const { originalLink, remarks, expirationDate } = req.body;
-  // console.log(req.body);
-  // console.log(originalLink);
-  // console.log(remarks);
-  // console.log(expirationDate);
   try {
     // const user = await User.findOne(id);
     const newexpirationDate = expirationDate ? new Date(expirationDate) : null;
@@ -47,7 +43,7 @@ router.post("/create", auth, async (req, res) => {
   }
 });
 
-router.patch("/update/:id", auth, async (req, res) => {
+router.put("/edit/:id", auth, async (req, res) => {
   const { id } = req.params;
   if (!id) {
     return res.status(400).json({ status: false, message: "link not found !" });
@@ -94,7 +90,7 @@ router.patch("/update/:id", auth, async (req, res) => {
   }
 });
 
-router.get("/everylink", auth, async (req, res) => {
+router.get("/getalllinks", auth, async (req, res) => {
   const userId = req.user.id;
   //   console.log(userId);
   if (!userId) {
@@ -110,42 +106,42 @@ router.get("/everylink", auth, async (req, res) => {
     .json({ status: true, message: "Links found !", links: links });
 });
 
-router.post("/visit", async (req, res) => {
-  const { shortlink, originalLink, deviceType, platform, ipAddress } = req.body;
-  try {
-    const visit = new VisitLog({
-      shortLink: shortlink,
-      originalLink: originalLink,
-      deviceType: deviceType,
-      platform: platform,
-      ipAddress: ipAddress,
-      // userId: userId,
-    });
-    const updatedLink = await Link.findOneAndUpdate(
-      { shortLink: shortlink }, // Find the link by shortLink
-      { $inc: { clicks: 1 } }, // Increment the clicks count by 1
-      { new: true } // Return the updated document
-    );
+// router.post("/visit", async (req, res) => {
+//   const { shortlink, originalLink, deviceType, platform, ipAddress } = req.body;
+//   try {
+//     const visit = new VisitLog({
+//       shortLink: shortlink,
+//       originalLink: originalLink,
+//       deviceType: deviceType,
+//       platform: platform,
+//       ipAddress: ipAddress,
+//       // userId: userId,
+//     });
+//     const updatedLink = await Link.findOneAndUpdate(
+//       { shortLink: shortlink }, // Find the link by shortLink
+//       { $inc: { clicks: 1 } }, // Increment the clicks count by 1
+//       { new: true } // Return the updated document
+//     );
 
-    if (!updatedLink) {
-      return res.status(404).json({
-        status: false,
-        message: "Short link not found in the database!",
-      });
-    }
-    await visit.save();
+//     if (!updatedLink) {
+//       return res.status(404).json({
+//         status: false,
+//         message: "Short link not found in the database!",
+//       });
+//     }
+//     await visit.save();
 
-    return res.status(200).json({
-      status: true,
-      message: "Visit logged and clicks count updated successfully!",
-      updatedLink,
-    });
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ status: false, message: "Internal Server Error" });
-  }
-});
+//     return res.status(200).json({
+//       status: true,
+//       message: "Visit logged and clicks count updated successfully!",
+//       updatedLink,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res
+//       .status(500)
+//       .json({ status: false, message: "Internal Server Error" });
+//   }
+// });
 
 module.exports = router;
