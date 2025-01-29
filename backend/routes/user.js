@@ -163,7 +163,7 @@ router.get("/dashboard", auth, async (req, res) => {
     }
     // console.log(userId);
     const links = await Link.find({ userId: userId });
-    console.log(links);
+    // console.log(links);
     const analytics = await getUserClickAnalytics(userId);
     const dateWiseClicks = analytics.dateWiseClicks;
     const deviceTypeClicks = analytics.deviceTypeClicks;
@@ -171,7 +171,7 @@ router.get("/dashboard", auth, async (req, res) => {
     res.status(200).json({
       status: true,
       message: "Data fetched successfully!",
-      data: { user, totalClicks, dateWiseClicks, deviceTypeClicks, links },
+      data: { totalClicks, dateWiseClicks, deviceTypeClicks, links },
     });
   } catch (error) {
     console.log(error);

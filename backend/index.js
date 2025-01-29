@@ -23,17 +23,106 @@ app.get("/", (req, res) => {
 app.use("/user", userRoutes);
 app.use("/link", linkRoutes);
 app.use(useragent.express());
+// app.get("/visit/:shortLink", async (req, res) => {
+//   const shortLink = req.params.shortLink; // Extract short link from URL
+//   const userAgent = req.useragent; // Extract user-agent info
+//   console.log(shortLink);
+  
+//   try {
+//     // Find the link in the database
+//     const link = await Link.findOne({ shortLink: shortLink });
+//     console.log("Link", link);
+//     if (!link) {
+//       return res.status(404).send("Short link not found!");
+//     }
+//     // Extract user info
+//     const deviceType = userAgent.isMobile
+//       ? "Mobile"
+//       : userAgent.isTablet
+//       ? "Tablet"
+//       : userAgent.isDesktop
+//       ? "Desktop"
+//       : "Mobile";
+//     // const platform = userAgent.platform;
+//     const platform = userAgent.isWindows
+//       ? "Windows"
+//       : userAgent.isMac
+//       ? "iOS"
+//       : userAgent.isiPhone
+//       ? "iOS"
+//       : userAgent.isiPad
+//       ? "iOS"
+//       : userAgent.isChrome
+//       ? "Chrome"
+//       : userAgent.isAndroid
+//       ? "Android"
+//       : "Android";
+//     const ipAddress =
+//       req.headers["x-forwarded-for"] || req.socket.remoteAddress; // IP Address
+//     const timestamp = new Date(); // Current timestamp
 
+//     const currentStatus =
+//       timestamp < link.expirationDate ? "Active" : "Inactive";
+//     if (link.status !== currentStatus) {
+//       link.status = currentStatus;
+//       await link.save();
+//     }
+
+//     if (!(timestamp < link.expirationDate)) {
+//       res.send(
+//         `<html>
+//           <head>
+//             <script>
+//               setTimeout(() => {
+//                 window.location.href = "https://google.com";
+//               }, 2000); // Redirect after 2 seconds
+//             </script>
+//           </head>
+//           <body>
+//             <h1>Link Inactive....Opening Google</h1>
+//           </body>
+//         </html>`
+//       );
+//     } else {
+//       // Update the click count for the link
+//       await Link.updateOne(
+//         { shortLink },
+//         { $inc: { clicks: 1 } } // Increment the click count
+//       );
+
+//       // Log the visit in the VisitLog schema
+//       const visitLog = new VisitLog({
+//         shortLink: link.shortLink,
+//         originalLink: link.originalLink,
+//         deviceType: deviceType,
+//         platform: platform,
+//         ipAddress: ipAddress,
+//         timestamp: timestamp,
+//       });
+//       await visitLog.save();
+
+//       res.redirect(link.originalLink);
+//     }
+//     // Respond with a message and redirect
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Internal Server Error!");
+//   }
+// });
 app.get("/visit/:shortLink", async (req, res) => {
-  const shortLink = req.params.shortLink; // Extract short link from URL
-  const userAgent = req.useragent; // Extract user-agent info
+  const shortLink = req.params.shortLink;
+  const userAgent = req.useragent;
+  // console.log(shortLink);
 
   try {
     // Find the link in the database
-    const link = await Link.findOne({ shortLink: shortLink });
+    const link = await Link.findOne({ shortLink });
+    console.log("Link", link);
+
     if (!link) {
       return res.status(404).send("Short link not found!");
     }
+
     // Extract user info
     const deviceType = userAgent.isMobile
       ? "Mobile"
@@ -42,39 +131,39 @@ app.get("/visit/:shortLink", async (req, res) => {
       : userAgent.isDesktop
       ? "Desktop"
       : "Mobile";
-    // const platform = userAgent.platform;
+
     const platform = userAgent.isWindows
       ? "Windows"
       : userAgent.isMac
+      ? "Mac"
+      : userAgent.isiPhone || userAgent.isiPad
       ? "iOS"
-      : userAgent.isiPhone
-      ? "iOS"
-      : userAgent.isiPad
-      ? "iOS"
-      : userAgent.isChrome
-      ? "Chrome"
       : userAgent.isAndroid
       ? "Android"
-      : "Android";
-    const ipAddress =
-      req.headers["x-forwarded-for"] || req.socket.remoteAddress; // IP Address
-    const timestamp = new Date(); // Current timestamp
+      : "Chrome";
+    const ipAddress = req.ip;
+    // const ipAddress = req.headers["x-forwarded-for"]
+    //   ? req.headers["x-forwarded-for"].split(",")[0].trim()
+    //   : req.socket.remoteAddress;
 
-    const currentStatus =
-      timestamp < link.expirationDate ? "Active" : "Inactive";
+    const timestamp = new Date();
+
+    // Update link status if expired
+    const currentStatus = timestamp < link.expirationDate ? "Active" : "Inactive";
     if (link.status !== currentStatus) {
       link.status = currentStatus;
       await link.save();
     }
 
-    if (!(timestamp < link.expirationDate)) {
-      res.send(
+    // Handle expired link redirection
+    if (currentStatus === "Inactive") {
+      return res.send(
         `<html>
           <head>
             <script>
               setTimeout(() => {
                 window.location.href = "https://google.com";
-              }, 2000); // Redirect after 2 seconds
+              }, 2000);
             </script>
           </head>
           <body>
@@ -82,27 +171,25 @@ app.get("/visit/:shortLink", async (req, res) => {
           </body>
         </html>`
       );
-    } else {
-      // Update the click count for the link
-      await Link.updateOne(
-        { shortLink },
-        { $inc: { clicks: 1 } } // Increment the click count
-      );
-
-      // Log the visit in the VisitLog schema
-      const visitLog = new VisitLog({
-        shortLink: link.shortLink,
-        originalLink: link.originalLink,
-        deviceType: deviceType,
-        platform: platform,
-        ipAddress: ipAddress,
-        timestamp: timestamp,
-      });
-      await visitLog.save();
-
-      res.redirect(link.originalLink);
     }
-    // Respond with a message and redirect
+
+    // Update the click count for the link
+    await Link.updateOne({ shortLink }, { $inc: { clicks: 1 } });
+
+    // Log the visit
+    const visitLog = new VisitLog({
+      shortLink: link.shortLink,
+      originalLink: link.originalLink,
+      deviceType,
+      platform,
+      ipAddress,
+      timestamp,
+    });
+    await visitLog.save();
+    
+
+    // Redirect to the original link
+    res.redirect(link.originalLink);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error!");
