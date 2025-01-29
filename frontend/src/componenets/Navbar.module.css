@@ -1,5 +1,5 @@
 .main{
-    width: 77vw;
+    width: 75vw;
     height: 15vh;
     display: flex;
     align-items: center;
@@ -107,7 +107,7 @@
 }
 .logoutBtn{
     position: absolute;
-    bottom: -0.1rem;
+    bottom: 0.1rem;
     border: 1px solid #ECECF2;
     right: 2.5rem;
     width: 7rem;
