@@ -2,7 +2,7 @@ const URL = "http://localhost:3000";
 
 // login
 export const userLogin = async (data) => {
-  return fetch(`${URL}/user/login`, {
+  return await fetch(`${URL}/user/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -12,7 +12,7 @@ export const userLogin = async (data) => {
 };
 
 export const userRegister = async (data) => {
-  return fetch(`${URL}/user/register`, {
+  return await fetch(`${URL}/user/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export const userRegister = async (data) => {
 };
 
 export const userUpdate = async (data) => {
-  return fetch(`${URL}/user/update`, {
+  return await fetch(`${URL}/user/update`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export const userUpdate = async (data) => {
 };
 
 export const userDelete = async () => {
-  return fetch(`${URL}/user/delete`, {
+  return await fetch(`${URL}/user/delete`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export const userDelete = async () => {
 };
 
 export const userDashboard = async () => {
-  return fetch(`${URL}/user/dashboard`, {
+  return await fetch(`${URL}/user/dashboard`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
