@@ -49,7 +49,6 @@
     margin-left: 1rem;
 
 }
-/*  */
 .chartcontainer {
     display: flex;
     flex-direction: column;
@@ -62,7 +61,6 @@
     line-height: 1.5rem;
     color: #181820;
 }
-
 .chartrow {
     display: flex;
     justify-content: space-between;
@@ -79,13 +77,11 @@
     /* overflow: hidden; */
     position: relative;
 }
-
 .bar {
     height: 100%;
     background-color: #1B48DA;
     transition: width  0.5s ease-in-out;
 }
-
 .clickcount {
     width: 40px;
 }
