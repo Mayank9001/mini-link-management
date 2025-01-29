@@ -162,8 +162,6 @@ router.get("/dashboard", auth, async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid User" });
     }
     // console.log(userId);
-    const links = await Link.find({ userId: userId });
-    // console.log(links);
     const analytics = await getUserClickAnalytics(userId);
     const dateWiseClicks = analytics.dateWiseClicks;
     const deviceTypeClicks = analytics.deviceTypeClicks;
@@ -171,7 +169,7 @@ router.get("/dashboard", auth, async (req, res) => {
     res.status(200).json({
       status: true,
       message: "Data fetched successfully!",
-      data: { totalClicks, dateWiseClicks, deviceTypeClicks, links },
+      data: { totalClicks, dateWiseClicks, deviceTypeClicks },
     });
   } catch (error) {
     console.log(error);
