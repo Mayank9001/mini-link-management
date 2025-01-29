@@ -16,7 +16,7 @@ const getUserClickAnalytics = async (userId) => {
     ]);
 
     // Date-Wise Clicks
-    const dateWiseClicks = await VisitLog.aggregate([
+    const dateClicks = await VisitLog.aggregate([
       { $match: { shortLink: { $in: shortLinkValues } } },
       {
         $group: {
@@ -26,9 +26,14 @@ const getUserClickAnalytics = async (userId) => {
           clicks: { $sum: 1 },
         },
       },
-      { $sort: { _id: -1 } },
+      { $sort: { _id: 1 } },
     ]);
-    const userLinks = await Link.find({ userId: userId });
+    let runningSum = 0;
+    const preSumClicks = dateClicks.map(({ _id, clicks }) => {
+      runningSum += clicks;
+      return { _id, clicks: runningSum };
+    });
+    const dateWiseClicks = preSumClicks;
 
     // total clicks
     const totalClick = await Link.aggregate([
