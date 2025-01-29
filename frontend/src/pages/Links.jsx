@@ -1,10 +1,18 @@
 import React from 'react'
-import Dashboard from './Dashboard'
+import Navbar from '../componenets/Navbar';
+import SideBar from '../componenets/SideBar';
 
 const Links = () => {
+  const isActive = {
+    dashboard :false,
+    links :true,
+    analytics : false,
+    settings : false,
+  };
   return (
     <>
-      <Dashboard />
+      <Navbar />  
+      <SideBar isDashboard={isActive.dashboard} isSettings={isActive.settings} isLinks={isActive.links} isAnalytics={isActive.analytics} />
       <div>Links</div>
     </>
   )

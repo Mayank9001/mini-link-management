@@ -121,3 +121,9 @@
     font-weight: 400;
     line-height: 0.5rem;
 }
+.logoutBtn:hover{
+    background-color: #bbbbbb;
+    border: 1px solid #bbbbbb;
+    color: #000000;
+    transition: 0.3s ease;
+}

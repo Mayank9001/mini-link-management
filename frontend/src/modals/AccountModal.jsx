@@ -3,6 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import styles from './AccountModal.module.css'
 import { userDelete } from '../services/user.services'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const AccountModal = ({onClose}) => {
     const modalRef = useRef();
@@ -19,9 +20,10 @@ const AccountModal = ({onClose}) => {
         const data = await res.json();
         if(res.status===200)
         {
-            console.log(data.message);
+            // console.log(data.message);
             localStorage.removeItem("token");
-            navigate('/');
+            toast.warn("Account Deleted SuccessFully😔!!");
+            navigate('/login');
         }
         else{
             console.log(data.message);
@@ -32,7 +34,7 @@ const AccountModal = ({onClose}) => {
     };
   return (
     <>
-        <div className={styles.main} ref={modalRef} >
+        <div className={styles.main} ref={modalRef} onClick={closeModal}>
             <div className={styles.container}>
                 <div onClick={onClose} className={styles.cross}>
                     <RxCross2 size={25} className={styles.icon}/>             

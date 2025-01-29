@@ -4,6 +4,7 @@ import Frame from '../assets/Frame.svg';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import CreateModal from '../modals/CreateModal';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -25,8 +26,9 @@ const Navbar = () => {
     const formattedDate = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(date);
     const handleLogout = () =>{
         localStorage.removeItem("token");
-        console.log("Logged Out Successfully!!!");
-        navigate('/');
+        // console.log("Logged Out Successfully!!!");
+        toast.info("Logged Out Successfully!!!");
+        navigate('/login');
     };
     const getuser = () => {
         const token = localStorage.getItem("token");

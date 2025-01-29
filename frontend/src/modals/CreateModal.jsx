@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './CreateModal.module.css';
 import { FaStarOfLife } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
@@ -6,6 +6,7 @@ import { IoCalendarOutline } from "react-icons/io5";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createLink } from '../services/link.services';
+import { toast } from 'react-toastify';
 
 const CreateModal = ({onClose}) => {
     const modalRef = useRef();
@@ -25,41 +26,50 @@ const CreateModal = ({onClose}) => {
         originalLink:false,
         remarks:false,
     });
-    const handleCreateLink = async (e) => {
-        e.preventDefault();
-        console.log("Toggle : ", isToggle);
+    useEffect(()=>{
         if(isToggle){
             setLinkData({...linkData, expirationDate:selectedDate});
         }
-        if(!linkData.originalLink)
-        {
-            return setErrors({originalLink:true});
+        else{
+            setLinkData({...linkData, expirationDate:""});
         }
-        if(!linkData.remarks)
-        {
-            return setErrors({remarks:true});
+    }, [isToggle, selectedDate]);
+
+    const handleInputChange = (field, value) => {
+        setLinkData(prev => ({ ...prev, [field]: value }));
+        setErrors(prev => ({ ...prev, [field]: false })); // Reset error on change
+    };
+
+    const handleCreateLink = async (e) => {
+        e.preventDefault();
+        if (!linkData.originalLink || !linkData.remarks) {
+            toast.error("Fill All Fields");
+            setErrors({
+                originalLink: !linkData.originalLink,
+                remarks: !linkData.remarks
+            });
+            return;
         }
         try {
-            console.log(linkData);
             const res = await createLink(linkData);
             const data = await res.json();
             if(res.status === 200)
             {
-                alert("Link Created Successfully!!")
-                console.log(data);
+                toast.success(data.message);
+                onClose();
+            }
+            else{
+                toast.error(data.message);
             }
             onClose();
         } catch (error) {
+            toast.error("Error Creating Link");
             console.log(error);
         }
     };
-    const handleToggleChange =() => {
-        setIsToggle((prev) => !prev);
-        console.log("toggle : ", !isToggle ? "true" : "false");
-    };
   return (
     <>
-        <div className={styles.main} ref={modalRef}>
+        <div className={styles.main} ref={modalRef} onClick={closeModal}>
             <div className={styles.container}>
                 <div className={styles.header}>
                     <h4 className={styles.title}>New Link</h4>
@@ -74,7 +84,7 @@ const CreateModal = ({onClose}) => {
                         </span>
                     </h5>
                     <input type='text' 
-                        onChange={(e)=>setLinkData({...linkData, originalLink:e.target.value})} placeholder='https://web.whatsapp.com/' 
+                        onChange={(e)=>handleInputChange("originalLink", e.target.value)} placeholder='https://web.whatsapp.com/' 
                         style={errors.originalLink ? { border: "1px solid red" } : {}} />
                     <p style={{ visibility : errors.originalLink ? "visible" : "hidden" }}>
                         {errors.originalLink && "This field is mandatory" }
@@ -86,7 +96,9 @@ const CreateModal = ({onClose}) => {
                             <FaStarOfLife color="red" size={5} />
                         </span>
                     </h5>
-                    <textarea type='text' onChange={(e)=>setLinkData({...linkData, remarks:e.target.value})} placeholder='Add remarks' style={errors.remarks ? { border: "1px solid red" } : {}}></textarea>
+                    <textarea type='text' 
+                    onChange={(e)=> handleInputChange("remarks",e.target.value)} placeholder='Add remarks' 
+                    style={errors.remarks ? { border: "1px solid red" } : {}}></textarea>
                     <p style={{ visibility : errors.remarks ? "visible" : "hidden" }}>
                         {errors.remarks && "This field is mandatory" }
                     </p>
@@ -95,7 +107,7 @@ const CreateModal = ({onClose}) => {
                     <div className={styles.exptitle}>
                         <h5>Expiration Date</h5>
                         <span className={styles.toggle}>
-                            <input type='checkbox' id='toggle' checked={isToggle} name='checkbox'onChange={handleToggleChange}/>
+                            <input type='checkbox' id='toggle' checked={isToggle} name='checkbox'onChange={()=>setIsToggle(prev => !prev)}/>
                             <label htmlFor='toggle'></label>
                         </span>
                     </div>
@@ -107,7 +119,7 @@ const CreateModal = ({onClose}) => {
                             onChange={(date) => setSelectedDate(date)}
                             showTimeInput
                             dateFormat="MMM d, yyyy, hh:mm aa"
-                            placeholder={selectedDate}
+                            placeholderText={selectedDate}
                             style={{width: "100%"}}
                         />
                         <span>
@@ -116,13 +128,13 @@ const CreateModal = ({onClose}) => {
                     </div>
                 </div>
                 <div className={styles.footer}>
-                    <button className={styles.clear}>Clear</button>
+                    <button className={styles.clear} onClick={()=>setLinkData({ originalLink: "", remarks: "", expirationDate: "" })}>Clear</button>
                     <button className={styles.createbtn} onClick={handleCreateLink}>Create new</button>
                 </div>
             </div>
         </div>
     </>
   )
-}
+};
 
 export default CreateModal

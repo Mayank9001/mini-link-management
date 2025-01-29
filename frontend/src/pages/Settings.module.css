@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 36.8rem;
+    height: 85vh;
     gap: 2rem;
     /* justify-content: center; */
     align-items: center;

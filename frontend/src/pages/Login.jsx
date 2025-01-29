@@ -1,9 +1,10 @@
-import { React, useState, useEffect } from 'react'
+import { React, useState } from 'react'
 import cuvette from '../assets/cuvette.png';
 import m_image from '../assets/m_image.png';
 import styles from './Login.module.css';
 import { useNavigate } from 'react-router-dom';
 import { userLogin } from '../services/user.services';
+import { toast } from 'react-toastify';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -33,7 +34,8 @@ const Login = () => {
             {
                 // console.log(data);
                 localStorage.setItem("token", data.token);
-                console.log(data.message);
+                // console.log(data.message);
+                toast.success(data.message);
                 // alert(data.message);
                 navigate('/dashboard');
             }

@@ -1,19 +1,20 @@
-import { React, useState, useEffect } from 'react'
+import { React, useState } from 'react'
 import cuvette from '../assets/cuvette.png';
 import m_image from '../assets/m_image.png';
 import styles from './Signup.module.css';
 import { useNavigate } from 'react-router-dom';
 import { userRegister } from '../services/user.services';
+import { toast } from 'react-toastify';
 
 const Signup = () => {
   const navigate = useNavigate();
   
       const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        mobileNo: "",
-        password: "",
-        confirmPassword: "",
+        name: "temp",
+        email: "temp@gmail.com",
+        mobileNo: "1234567891",
+        password: "temp123",
+        confirmPassword: "temp123",
       });
       const [error, setError] = useState({});
       const validateInput = () => {
@@ -37,12 +38,14 @@ const Signup = () => {
               const data = await res.json();
               if(res.status === 200)
               {
-                  console.log(data);
-                  alert(data.message);
-                  navigate("/");
+                console.log(data);
+                // alert(data.message);
+                toast.success(data.message);
+                navigate("/");
               }
               else{
-                  alert(data.message);
+                // alert(data.message);
+                toast.info(data.message);
               }
           } catch (error) {
               console.log(error);
@@ -64,7 +67,7 @@ const Signup = () => {
           </div>
           <div className={styles.buttons}>
               <button onClick={() => navigate('/signup')} className={styles.signup}>SignUp</button>
-              <button onClick={() => navigate("/")} className={styles.login}>Login</button>
+              <button onClick={() => navigate("/login")} className={styles.login}>Login</button>
           </div> 
           <p className={styles.signup1}>Join us Today!</p>
           <div className={styles.form}>
@@ -95,8 +98,8 @@ const Signup = () => {
                       <button type='submit'>Register</button>
                   </div>
                   <div className={styles.submit}>
-                      <p>Already have an account? 
-                          <a onClick={()=>navigate("/")}>Login</a>
+                      <p>Already have an account?  
+                          <a onClick={()=>navigate("/login")}>Login</a>
                       </p>
                   </div>
               </form>

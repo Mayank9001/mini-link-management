@@ -1,13 +1,19 @@
-import React, {useState,useEffect} from 'react'
-import Dashboard from './Dashboard'
+import React, { useState, useEffect } from 'react'
+import Navbar from '../componenets/Navbar';
+import SideBar from '../componenets/SideBar';
 import styles from './Settings.module.css'
 import { jwtDecode } from 'jwt-decode'
-import { userUpdate, userDelete } from '../services/user.services'
-import { useNavigate } from 'react-router-dom'
+import { userUpdate } from '../services/user.services'
 import AccountModal from '../modals/AccountModal';
+import { toast } from 'react-toastify'
 
 const Settings = () => {
-  const navigate = useNavigate();
+  const isActive = {
+    dashboard :false,
+    links :false,
+    analytics : false,
+    settings : true,
+  };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState();
   const [newData, setNewData] = useState({
@@ -42,29 +48,14 @@ const Settings = () => {
         const data = await res.json();
         if(res.status===200)
         {
-          console.log(data.message);
+          // console.log(data.message);
+          toast.success(data.message);
         }
         else{
-          console.log(data.message);
+          // console.log(data.message);
+          toast.error(data.message);
         }
       } catch (error) {
-        console.log(error);
-      }
-    };
-    const handleDelete = async () =>{
-      try{
-        const res = await userDelete();
-        const data = await res.json();
-        if(res.status===200)
-        {
-          console.log(data.message);
-          localStorage.removeItem("token");
-          navigate('/');
-        }
-        else{
-          console.log(data.message);
-        }
-      }catch(error){
         console.log(error);
       }
     };
@@ -74,7 +65,8 @@ const Settings = () => {
     // console.log(newData);
     return (
     <>
-      <Dashboard />
+      <Navbar />  
+      <SideBar isDashboard={isActive.dashboard} isSettings={isActive.settings} isLinks={isActive.links} isAnalytics={isActive.analytics} />
       <div className={styles.main}>
         <div className={styles.container}>
           <div className={styles.ipt}>
