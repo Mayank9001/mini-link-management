@@ -17,7 +17,7 @@ const VisitLogSchema = new mongoose.Schema({
   },
   platform: {
     type: String,
-    enum: ["Android", "iOS", "Chrome"], // Represents the operating system or browser
+    enum: ["Android", "iOS", "Chrome", 'Windows'], // Represents the operating system or browser
     required: true,
   },
   ipAddress: {

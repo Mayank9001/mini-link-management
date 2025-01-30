@@ -6,7 +6,7 @@ const User = require("../models/user.model");
 const VisitLog = require("../models/visitLogs.model");
 const Link = require("../models/link.model");
 
-router.post("/create", auth, async (req, res) => {  
+router.post("/create", auth, async (req, res) => {
   const id = req.user.id;
   if (!id) {
     return res.status(400).json({ status: false, message: "user not found !" });
@@ -15,7 +15,7 @@ router.post("/create", auth, async (req, res) => {
   try {
     // const user = await User.findOne(id);
     const newexpirationDate = expirationDate ? new Date(expirationDate) : null;
-    const salt = crypto.randomBytes(16).toString('hex');
+    const salt = crypto.randomBytes(16).toString("hex");
     const shortLink = crypto
       .createHash("sha256")
       .update(originalLink + salt)
@@ -80,7 +80,6 @@ router.put("/edit/:id", auth, async (req, res) => {
     return res.status(200).json({
       status: true,
       message: "Link Updated Succesfully !!",
-      link: link,
     });
   } catch (error) {
     console.error(error);
@@ -96,14 +95,42 @@ router.get("/getalllinks", auth, async (req, res) => {
   if (!userId) {
     return res.status(400).json({ status: false, message: "User Not Found!" });
   }
-  const links = await Link.find({ userId: userId });
-  //   console.log(links);
+  const link = await Link.find({ userId: userId });
+  for (let i = 0;i<link.length;i++) {
+    const temp = link[i];
+    await temp.save();
+  }
+  const links= await Link.find({ userId: userId });
+
+  
   if (!links) {
     return res.status(400).json({ status: false, message: "Link Not Found!" });
   }
   return res
     .status(200)
     .json({ status: true, message: "Links found !", links: links });
+});
+
+router.get("/getlink/:id", auth, async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ status: false, message: "Invalid Link Id" });
+  }
+  try {
+    const link = await Link.findById(id);
+    if (!link) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Link not found !" });
+    }
+    return res
+      .status(200)
+      .json({ status: true, message: "Link found !", link: link });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ status: false, message: "Internal Server Error" });
+  }
 });
 
 module.exports = router;
