@@ -1,4 +1,4 @@
-const URL = "http://localhost:3000";
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 export const createLink = async (data) => {
   return await fetch(`${URL}/link/create`, {

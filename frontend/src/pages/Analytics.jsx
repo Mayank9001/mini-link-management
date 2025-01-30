@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../componenets/Navbar'
 import SideBar from '../componenets/SideBar'
 import styles from './Analytics.module.css'
-import { getAllLinks } from '../services/link.services'
 import { jwtDecode } from 'jwt-decode'
 import { getlogs } from '../services/logs.services'
 

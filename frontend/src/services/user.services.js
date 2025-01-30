@@ -1,4 +1,4 @@
-const URL = "http://localhost:3000";
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 // login
 export const userLogin = async (data) => {

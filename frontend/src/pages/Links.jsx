@@ -9,7 +9,7 @@ import styles from './Links.module.css'
 import EditModal from '../modals/EditModal';
 import DeleteModal from '../modals/DeleteModal';
 import { toast } from 'react-toastify';
-const url = 'http://localhost:3000/visit/';
+const url = import.meta.env.VITE_BACKEND_URL+"/visit/";
 
 const Links = () => {
   const isActive = {
@@ -129,7 +129,7 @@ const Links = () => {
                         overflow: "hidden", // Hides overflowing text
                         textOverflow: "ellipsis",
                       }}
-                    >https://onrender.com/visit/{link.shortLink}
+                    >{url}visit/{link.shortLink}
                     </span>
                     <span
                       style={{

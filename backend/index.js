@@ -55,6 +55,7 @@ app.get("/visit/:shortLink", async (req, res) => {
       : userAgent.isAndroid
       ? "Android"
       : "Chrome";
+    
     const ipAddress = req.ip;
     // const ipAddress = req.headers["x-forwarded-for"]
     //   ? req.headers["x-forwarded-for"].split(",")[0].trim()
