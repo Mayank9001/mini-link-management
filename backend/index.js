@@ -8,7 +8,7 @@ const linkRoutes = require("./routes/link");
 const useragent = require("express-useragent");
 const Link = require("./models/link.model");
 const VisitLog = require("./models/visitLogs.model");
-
+const logRoutes = require("./routes/visitlogs");
 dotenv.config({});
 
 const port = process.env.PORT || 3000;
@@ -22,6 +22,7 @@ app.get("/", (req, res) => {
 });
 app.use("/user", userRoutes);
 app.use("/link", linkRoutes);
+app.use("/logs", logRoutes);
 app.use(useragent.express());
 
 app.get("/visit/:shortLink", async (req, res) => {
@@ -61,7 +62,8 @@ app.get("/visit/:shortLink", async (req, res) => {
 
     const timestamp = new Date();
 
-    const currentStatus = timestamp < link.expirationDate ? "Active" : "Inactive";
+    const currentStatus =
+      timestamp < link.expirationDate ? "Active" : "Inactive";
     if (link.status !== currentStatus) {
       link.status = currentStatus;
       await link.save();
@@ -89,10 +91,10 @@ app.get("/visit/:shortLink", async (req, res) => {
     const visitLog = new VisitLog({
       shortLink: link.shortLink,
       originalLink: link.originalLink,
-      deviceType:deviceType,
-      platform:platform,
-      ipAddress:ipAddress,
-      timestamp:timestamp,
+      deviceType: deviceType,
+      platform: platform,
+      ipAddress: ipAddress,
+      timestamp: timestamp,
     });
 
     await visitLog.save();
