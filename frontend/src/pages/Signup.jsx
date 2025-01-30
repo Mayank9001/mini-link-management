@@ -10,11 +10,11 @@ const Signup = () => {
   const navigate = useNavigate();
   
       const [formData, setFormData] = useState({
-        name: "temp",
-        email: "temp@gmail.com",
-        mobileNo: "1234567891",
-        password: "temp123",
-        confirmPassword: "temp123",
+        name: "",
+        email: "",
+        mobileNo: "",
+        password: "",
+        confirmPassword: "",
       });
       const [error, setError] = useState({});
       const validateInput = () => {

@@ -47,14 +47,6 @@ const Navbar = () => {
         getuser();
     }, []);
 
-    // console.log("User", user);
-    // if (user) {
-    // console.log("name", user.name);
-    // console.log("email", user.email);
-    // console.log("id", user.id);
-    // console.log("mobile", user.mobileNo);
-    // }
-
   return (
     <>
         <div className={styles.main}>
