@@ -52,6 +52,24 @@ const Analytics = () => {
   useEffect(()=>{
     getuser();
   }, []);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(allLogs.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedLogs = allLogs.slice(startIndex, startIndex + itemsPerPage);
+  const getPaginationNumbers = () => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    } else {
+      if (currentPage <= 3) {
+        return [1, 2, 3, "...", totalPages];
+      } else if (currentPage >= totalPages - 2) {
+        return [1, "...", totalPages - 2, totalPages - 1, totalPages];
+      } else {
+        return [1, "...", currentPage, "...", totalPages];
+      }
+    }
+  };
   return (
     <>
       <Navbar />  
@@ -69,7 +87,7 @@ const Analytics = () => {
               </tr>
             </thead>
             <tbody>
-              {allLogs.length > 0 ? (allLogs.map((log) => (
+              {paginatedLogs.length > 0 ? (paginatedLogs.map((log) => (
                 <tr key={log._id} className={styles.tablerow}>
                   <td>{formatDate(log.timestamp)}</td>
                   <td style={{width:"8vw"}}>
@@ -86,9 +104,8 @@ const Analytics = () => {
                   <td style={{ position: "relative", 
                     display: "flex", 
                     alignItems: "center", 
-                    backgroundColor:"wheat",
                     widht:"10vw", 
-                    paddingRight:"0" 
+                    paddingRight:"0",
                     }}>
                     <span
                       style={{
@@ -101,7 +118,7 @@ const Analytics = () => {
                     >https://onrender.com/visit/{log.shortLink}
                     </span>
                   </td>
-                  <td style={{backgroundColor:"turquoise"}}>{log.ipAddress}</td>
+                  <td>{log.ipAddress}</td>
                   <td>{log.platform}  {log.deviceType}</td>
                 </tr>
               ))):
@@ -113,6 +130,34 @@ const Analytics = () => {
             </tbody>
           </table>
         </div>
+        {totalPages > 1 && (
+          <div className={styles.pagination}>
+            <button 
+              className={styles.pageButton} 
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
+              disabled={currentPage === 1}
+            >
+              {"<"}
+            </button>
+            {getPaginationNumbers().map((num, index) => (
+                <button
+                  key={index}
+                  className={`${styles.pageButton} ${num === currentPage ? styles.activePage : ""}`}
+                  onClick={() => typeof num === "number" && setCurrentPage(num)}
+                  disabled={num === "..."}
+                >
+                  {num}
+                </button>
+              ))}
+              <button
+                className={styles.pageButton}
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+              >
+                {">"}
+              </button>
+          </div>
+        )}
       </div>
     </>
   )

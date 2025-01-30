@@ -12,7 +12,6 @@
     width: 90%;
     padding: 20px;
     margin: 2vh auto;
-    background-color: wheat;
 }
 .linkstable {
     width: 100%;
@@ -38,4 +37,29 @@
 }
 .linkstable tr:hover {
     background-color: #f1f1f1;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.pageButton {
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    background: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.pageButton:hover {
+    background: #f0f0f0;
+}
+
+.activePage {
+    background: #007bff;
+    color: white;
+    font-weight: bold;
 }

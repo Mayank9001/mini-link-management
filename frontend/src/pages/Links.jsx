@@ -59,6 +59,24 @@ const Links = () => {
       .catch(err => console.error("Failed to copy:", err));
     
   };
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(allLinks.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedLinks = allLinks.slice(startIndex, startIndex + itemsPerPage);
+  const getPaginationNumbers = () => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    } else {
+      if (currentPage <= 3) {
+        return [1, 2, 3, "...", totalPages];
+      } else if (currentPage >= totalPages - 2) {
+        return [1, "...", totalPages - 2, totalPages - 1, totalPages];
+      } else {
+        return [1, "...", currentPage, "...", totalPages];
+      }
+    }
+  };
   // console.log(allLinks);
   return (
     <>
@@ -79,21 +97,30 @@ const Links = () => {
               </tr>
             </thead>
             <tbody>
-              {allLinks.length > 0 ? (allLinks.map((link, index) => (
+              {paginatedLinks.length > 0 ? (paginatedLinks.map((link, index) => (
                 <tr key={link._id} className={styles.tablerow}>
                   <td>{formatDate(link.createdAt)}</td>
-                  <td style={{width:"8vw"}}>
-                    <span style={{display: "block", 
-                      overflow: "hidden", 
-                      whiteSpace: "nowrap",  // Prevents text from wrapping
-                      textOverflow: "clip",  // Cuts off overflowing text
-                      width: "100%", 
-                      maxWidth: "8vw",
+                    <td style={{
+                      width:"8vw",
                       }}>
-                      {link.originalLink}
-                    </span>
-                  </td>
-                  <td style={{ position: "relative", display: "flex", alignItems: "center", widht:"10vw", paddingRight:"0" }}>
+                      <span style={{display: "block", 
+                        overflow: "hidden", 
+                        whiteSpace: "nowrap",  // Prevents text from wrapping
+                        textOverflow: "clip",  // Cuts off overflowing text
+                        width: "100%", 
+                        maxWidth: "8vw",
+                        }}>
+                        {link.originalLink}
+                      </span>
+                    </td>
+                    <td style={{ 
+                      position: "relative", 
+                      display: "flex", 
+                      alignItems: "center", 
+                      widht:"10vw", 
+                      paddingRight:"0", 
+                      height:"2rem",
+                    }}>
                     <span
                       style={{
                         width:"10vw",
@@ -107,9 +134,8 @@ const Links = () => {
                     <span
                       style={{
                         width: "30px", // Fixed width for the copy button
-                        height: "25px",
-                        backgroundColor: "rgba(255, 255, 255, 0.5)", // Semi-transparent turquoise
-                        // marginLeft: "5px",
+                        height: "30px",
+                        backgroundColor: "rgba(255, 255, 255, 0.5)", 
                         marginRight:"0",
                         display: "flex",
                         alignItems: "center",
@@ -117,9 +143,10 @@ const Links = () => {
                         borderRadius: "5px",
                         overflow: "hidden", // Hides anything outside the box
                         position: "relative",
+                        cursor:"pointer",
                       }}
                     >
-                      <RxCopy size={20} onClick={()=> handleCopyLink(index)}/>
+                      <RxCopy size={20} onClick={()=> handleCopyLink(startIndex + index)}/>
                     </span>
                   </td>
                   <td>{link.remarks}</td>
@@ -149,6 +176,35 @@ const Links = () => {
             </tbody>
           </table>
         </div>
+        {totalPages > 1 && (
+          <div className={styles.pagination}>
+            <button 
+              className={styles.pageButton} 
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
+              disabled={currentPage === 1}
+            >
+              {"<"}
+            </button>
+            {getPaginationNumbers().map((num, index) => (
+                <button
+                  key={index}
+                  className={`${styles.pageButton} ${num === currentPage ? styles.activePage : ""}`}
+                  onClick={() => typeof num === "number" && setCurrentPage(num)}
+                  disabled={num === "..."}
+                >
+                  {num}
+                </button>
+              ))}
+
+              <button
+                className={styles.pageButton}
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+              >
+                {">"}
+              </button>
+          </div>
+        )}
       </div>
       {isDeleteModalOpen && <DeleteModal id={linkId} onClose={()=>setIsDeleteModalOpen(false)} />}
       {isEditModalOpen && <EditModal id={linkId} onClose={()=>setIsEditModalOpen(false)}/>}
