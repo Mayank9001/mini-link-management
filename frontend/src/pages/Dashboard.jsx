@@ -33,7 +33,6 @@ const Dashboard = () => {
     try {
       const res = await userDashboard();
       const temp = await res.json();
-      // console.log("temp", temp.data.dateWiseClicks);
       setTotalClicls(temp.data.totalClicks);
       setDeviceTypeClicks(temp.data.deviceTypeClicks);
       setDateWiseClicks(temp.data.dateWiseClicks);
@@ -55,10 +54,7 @@ const Dashboard = () => {
   useEffect(()=>{
     if(user)getdashboard();
   },[user]);
-  // console.log("Data", data);
-  // console.log("TC", totalClicks);
-  // console.log("Date", sortedDateWiseClicks);
-  // console.log("Device", sortedDeviceClicks);
+
   return (
     <>
       <Navbar />  

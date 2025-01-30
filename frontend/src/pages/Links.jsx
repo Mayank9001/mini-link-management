@@ -8,6 +8,7 @@ import { RxCopy } from "react-icons/rx";
 import styles from './Links.module.css'
 import EditModal from '../modals/EditModal';
 import DeleteModal from '../modals/DeleteModal';
+import { toast } from 'react-toastify';
 const url = 'http://localhost:3000/visit/';
 
 const Links = () => {
@@ -46,10 +47,17 @@ const Links = () => {
     }
     
     navigator.clipboard.writeText(url+allLinks[index].shortLink)
-      .then(() => console.log(`Copied: ${allLinks[index].shortLink}`))
+      .then(() => {
+        console.log(`Copied: ${allLinks[index].shortLink}`);
+        toast('Link Copied', {
+          position: "bottom-left",
+          autoClose: 2000,
+          hideProgressBar: true,
+          theme: "colored",
+          });
+      })
       .catch(err => console.error("Failed to copy:", err));
-    console.log("Link ID:", index);
-    console.log("Original Link:", allLinks[index].originalLink);
+    
   };
   // console.log(allLinks);
   return (
@@ -71,7 +79,7 @@ const Links = () => {
               </tr>
             </thead>
             <tbody>
-w              {allLinks.length > 0 ? (allLinks.map((link, index) => (
+              {allLinks.length > 0 ? (allLinks.map((link, index) => (
                 <tr key={link._id} className={styles.tablerow}>
                   <td>{formatDate(link.createdAt)}</td>
                   <td style={{width:"8vw"}}>
