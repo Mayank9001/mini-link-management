@@ -11,15 +11,23 @@ router.get("/getlogs", auth, async (req, res) => {
   }
   try {
     const links = await Link.find({ userId: id });
-    const shortLinks = links.map(link => link.shortLink);
+    if (!links) {
+      return res
+        .status(400)
+        .json({ status: false, message: "No links found!!" });
+    }
+    const shortLinks = links.map((link) => link.shortLink);
     const logs = await VisitLog.find({ shortLink: { $in: shortLinks } });
-    return res
-      .status(200)
-      .json({
-        status: true,
-        message: "All Logs fetched successfully!!",
-        logs: logs,
-      });
+    if (!logs) {
+      return res
+        .status(400)
+        .json({ status: false, message: "No logs found!!" });
+    }
+    return res.status(200).json({
+      status: true,
+      message: "All Logs fetched successfully!!",
+      logs: logs,
+    });
   } catch (error) {
     return res
       .status(500)
