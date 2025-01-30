@@ -2,8 +2,7 @@ const express = require("express");
 const auth = require("../middleware/auth.js");
 const router = express.Router();
 const crypto = require("crypto");
-const User = require("../models/user.model");
-const VisitLog = require("../models/visitLogs.model");
+const VisitLog = require('../models/visitLogs.model')
 const Link = require("../models/link.model");
 
 router.post("/create", auth, async (req, res) => {
@@ -96,13 +95,12 @@ router.get("/getalllinks", auth, async (req, res) => {
     return res.status(400).json({ status: false, message: "User Not Found!" });
   }
   const link = await Link.find({ userId: userId });
-  for (let i = 0;i<link.length;i++) {
+  for (let i = 0; i < link.length; i++) {
     const temp = link[i];
     await temp.save();
   }
-  const links= await Link.find({ userId: userId });
+  const links = await Link.find({ userId: userId });
 
-  
   if (!links) {
     return res.status(400).json({ status: false, message: "Link Not Found!" });
   }
@@ -126,6 +124,28 @@ router.get("/getlink/:id", auth, async (req, res) => {
     return res
       .status(200)
       .json({ status: true, message: "Link found !", link: link });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ status: false, message: "Internal Server Error" });
+  }
+});
+
+router.delete("/delete/:id", auth, async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ status: false, message: "Invalid Link Id" });
+  }
+  try {
+    const link = await Link.findById(id);
+    await VisitLog.deleteMany({shortLink : link.shortLink});
+    await Link.findByIdAndDelete(id);
+    if (!link) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Link not found !" });
+    }
+    return res.status(200).json({ status: true, message: "Link deleted !" });
   } catch (error) {
     return res
       .status(500)
