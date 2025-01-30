@@ -31,3 +31,23 @@ export const getAllLinks = async () => {
     },
   });
 };
+
+export const getLink = async (id) => {
+  return await fetch(`${URL}/link/getlink/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("token")}`,
+    },
+  });
+};
+
+export const deleteLink = async (id) => {
+  return await fetch(`${URL}/link/delete/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("token")}`,
+    },
+  });
+};

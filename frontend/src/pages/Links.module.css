@@ -1,0 +1,51 @@
+.content{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+    gap: 2rem;
+    border-top: 0.2rem solid #F6F6F9;
+    border-left: 0.2rem solid #F6F6F9;
+}
+.tablecontainer {
+    width: 90%;
+    overflow-x: auto;
+    padding: 20px;
+    margin: 2vh auto;
+}
+.linkstable {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.tablerow{
+    height: 2rem;
+}
+.tablerow td{
+    border-right: 2px solid #F8F8F8;
+}
+.linkstable th, .linkstable td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #F8F8F8;
+}
+.linkstable th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+.linkstable tr:hover {
+    background-color: #f1f1f1;
+}
+.actions {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    gap: 20px;
+}
+.editicon, .deleteicon {
+    color: #3B3C51;
+    cursor: pointer;
+}
