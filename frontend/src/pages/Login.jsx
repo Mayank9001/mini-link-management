@@ -32,15 +32,13 @@ const Login = () => {
             const data = await res.json();
             if(res.status === 200)
             {
-                // console.log(data);
                 localStorage.setItem("token", data.token);
-                // console.log(data.message);
                 toast.success(data.message);
                 // alert(data.message);
                 navigate('/dashboard');
             }
             else{
-                alert(data.message);
+                toast.info(data.message);
             }
         } catch (error) {
             console.log(error);

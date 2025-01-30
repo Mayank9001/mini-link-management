@@ -71,7 +71,7 @@ const Links = () => {
               </tr>
             </thead>
             <tbody>
-              {allLinks.map((link, index) => (
+w              {allLinks.length > 0 ? (allLinks.map((link, index) => (
                 <tr key={link._id} className={styles.tablerow}>
                   <td>{formatDate(link.createdAt)}</td>
                   <td style={{width:"8vw"}}>
@@ -132,7 +132,12 @@ const Links = () => {
                       } />
                   </td>
                 </tr>
-              ))}
+              ))):
+              (
+                <tr className={styles.tablerow2}><td style={{
+                  border:"none"
+                  }}>No Data Available</td></tr>
+              )}
             </tbody>
           </table>
         </div>

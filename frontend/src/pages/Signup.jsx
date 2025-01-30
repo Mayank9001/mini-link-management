@@ -39,12 +39,10 @@ const Signup = () => {
               if(res.status === 200)
               {
                 console.log(data);
-                // alert(data.message);
                 toast.success(data.message);
                 navigate("/");
               }
               else{
-                // alert(data.message);
                 toast.info(data.message);
               }
           } catch (error) {
