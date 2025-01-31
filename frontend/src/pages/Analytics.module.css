@@ -9,9 +9,12 @@
     overflow: hidden;
 }
 .tablecontainer {
+    height: 60vh;
     width: 90%;
+    overflow-y: hidden;
     padding: 20px;
     margin: 2vh auto;
+    margin-bottom: 0;
 }
 .linkstable {
     width: 100%;
@@ -38,17 +41,24 @@
 .linkstable tr:hover {
     background-color: #f1f1f1;
 }
+.footer{
+    display: flex;
+    justify-content: center;
+}
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin-top: 15px;
+    width: 50%;
+    height: 10vh;
 }
-
 .pageButton {
+    font-family: 'Manrope';
     border: 1px solid #ddd;
     padding: 5px 10px;
+    width: 40px;
+    height: 40px;
     background: white;
     cursor: pointer;
     border-radius: 5px;
@@ -56,10 +66,13 @@
 
 .pageButton:hover {
     background: #f0f0f0;
+    transition: 0.2s ease;
 }
-
+.pageButton:disabled{
+    cursor:not-allowed;
+}
 .activePage {
-    background: #007bff;
-    color: white;
+    color: #4200FF;
+    border: 2px solid #4200FF;
     font-weight: bold;
 }

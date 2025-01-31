@@ -52,7 +52,7 @@ const Analytics = () => {
     getuser();
   }, []);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage =8;
   const totalPages = Math.ceil(allLogs.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedLogs = allLogs.slice(startIndex, startIndex + itemsPerPage);
@@ -129,34 +129,59 @@ const Analytics = () => {
             </tbody>
           </table>
         </div>
-        {totalPages > 1 && (
+        {totalPages > 1 ? (
+          <div className={styles.footer}>
+            <div className={styles.pagination}>
+              <button 
+                className={styles.pageButton} 
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
+                disabled={currentPage === 1}
+              >
+                {"<"}
+              </button>
+              {getPaginationNumbers().map((num, index) => (
+                  <button
+                    key={index}
+                    className={`${styles.pageButton} ${num === currentPage ? styles.activePage : ""}`}
+                    onClick={() => typeof num === "number" && setCurrentPage(num)}
+                    disabled={num === "..."}
+                  >
+                    {num}
+                  </button>
+                ))}
+                <button
+                  className={styles.pageButton}
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                >
+                  {">"}
+                </button>
+            </div>
+          </div>
+        )
+      :(
+        <div className={styles.footer}>
           <div className={styles.pagination}>
             <button 
               className={styles.pageButton} 
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
-              disabled={currentPage === 1}
+              disabled
             >
               {"<"}
             </button>
-            {getPaginationNumbers().map((num, index) => (
                 <button
-                  key={index}
-                  className={`${styles.pageButton} ${num === currentPage ? styles.activePage : ""}`}
-                  onClick={() => typeof num === "number" && setCurrentPage(num)}
-                  disabled={num === "..."}
+                  className={`${styles.pageButton} ${styles.activePage}`}
                 >
-                  {num}
+                  {1}
                 </button>
-              ))}
               <button
                 className={styles.pageButton}
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
+                disabled
               >
                 {">"}
               </button>
           </div>
-        )}
+        </div>
+      )}
       </div>
     </>
   )
