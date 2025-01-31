@@ -115,13 +115,13 @@ input::placeholder{
         transform: translateX(-50%);
     }
     .form{
-        width: 70vw;
+        width: 80vw;
         height: 50vh;
         left: 50%;
         transform: translateX(-50%);
     }
     form div input{
-        width: 50vw;
+        width: 60vw;
         padding: 1px 0 0 25px;
         border-radius: 10px;
         margin: 10px 0 10px 0;
