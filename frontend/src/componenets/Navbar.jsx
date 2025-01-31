@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styles from './Navbar.module.css';
 import Frame from '../assets/Frame.svg';
 import { jwtDecode } from "jwt-decode";
@@ -13,6 +13,15 @@ const Navbar = () => {
     const [greetIcon, setGreetIcon] = useState("🌤️");
     const [islogout, setIsLogout] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const searchRef = useRef(null);
+    const handleSearchClick = () => {
+        navigate("/links", { state: { focusSearch: true } }); 
+        setTimeout(() => {
+            if (searchRef.current) {
+                searchRef.current.focus(); 
+            }
+        }, 1000);
+    };
     const initials = (name) => {
         const words = name.split(" ");
         if (words.length === 1) {
@@ -80,7 +89,7 @@ const Navbar = () => {
                 </div>
                 <div className={styles.search}>
                     <img src={Frame} alt='search icon' />
-                    <input type='search' placeholder='Search by remarks'/>
+                    <input ref={searchRef} type='search' onClick={handleSearchClick} placeholder='Search by remarks'/>
                 </div>
             </div>
             <div className={styles.logout}>
