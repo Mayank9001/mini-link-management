@@ -8,7 +8,7 @@
     border-left: 0.2rem solid #F6F6F9;
 }
 .tablecontainer {
-    height: 60vh;
+    height: fit-content;
     width: 90%;
     overflow: hidden;
     padding: 20px;
@@ -60,6 +60,10 @@
 }
 .footer{
     display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     justify-content: center;
 }
 .pagination {
@@ -72,10 +76,10 @@
 }
 .pageButton {
     font-family: 'Manrope';
-    border: 1px solid #ddd;
+    border: 0.66px solid #DFE3E8;
     padding: 5px 10px;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     background: white;
     cursor: pointer;
     border-radius: 5px;
@@ -86,6 +90,8 @@
 }
 .pageButton:disabled{
     cursor: not-allowed;
+    background-color: #919EAB;
+    color: #C4CDD5;
 }
 .activePage {
     color: #4200FF;

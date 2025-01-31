@@ -53,7 +53,7 @@ const Analytics = () => {
     getuser();
   }, []);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage =8;
+  const itemsPerPage = 5;
   const totalPages = Math.ceil(allLogs.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedLogs = allLogs.slice(startIndex, startIndex + itemsPerPage);
@@ -91,30 +91,38 @@ const Analytics = () => {
                 <tr key={log._id} className={styles.tablerow}>
                   <td style={{
                         width:"12vw",
-                        maxWidth: "12vw", // Fixed width
-                        whiteSpace: "nowrap", // Prevents text from wrapping
-                        overflow: "hidden", // Hides overflowing text
+                        maxWidth: "12vw", 
+                        whiteSpace: "nowrap", 
+                        overflow: "hidden", 
                         textOverflow: "ellipsis",
                       }}>{formatDate(log.timestamp)}</td>
                   <td style={{width:"12vw"}}>
                     <span style={{display: "block", 
                       overflow: "hidden", 
-                      whiteSpace: "nowrap",  // Prevents text from wrapping
-                      textOverflow: "clip",  // Cuts off overflowing text
+                      whiteSpace: "nowrap",  
+                      textOverflow: "clip",  
                       maxWidth: "12vw",
                       }}>
                       {log.originalLink}
                     </span>
                   </td>
-                  <td style={{ maxWidth:"10vw",overflow: "hidden", 
-                      whiteSpace: "nowrap",  // Prevents text from wrapping
-                      textOverflow: "ellipsis",  // Cuts off overflowing text
-                      maxWidth: "12vw",}}>
+                  <td style={{ maxWidth: "12vw",
+                      wordWrap: "break-word",  
+                      overflowWrap: "break-word", 
+                      whiteSpace: "normal",
+                    }}>
                     <span>{url}{log.shortLink}
                     </span>
                   </td>
-                  <td style={{textAlign:"left"}}>{log.ipAddress}</td>
-                  <td>{log.platform}  {log.deviceType}</td>
+                  <td style={{textAlign:"left", width:"6vw"}}>{log.ipAddress}</td>
+                  <td style={{width:"5vw",
+                      wordWrap: "break-word",
+                      overflowWrap: "break-word",
+                      whiteSpace: "normal",
+                    }}
+                  >
+                    {log.platform}  {log.deviceType}
+                  </td>
                 </tr>
               ))):
               (

@@ -9,7 +9,7 @@
     overflow: hidden;
 }
 .tablecontainer {
-    height: 60vh;
+    height: fit-content;
     width: 90%;
     overflow-y: hidden;
     padding: 20px;
@@ -22,9 +22,6 @@
     border-collapse: collapse;
     border-radius: 10px;
     overflow: hidden;
-}
-.tablerow{
-    height: 2rem;   
 }
 .tablerow td{
     border-right: 2px solid #F8F8F8;
@@ -41,11 +38,12 @@
     background-color: #f4f4f4;
     font-weight: bold;
 }
-.linkstable tr:hover {
-    background-color: #f1f1f1;
-}
 .footer{
     display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     justify-content: center;
 }
 .pagination {

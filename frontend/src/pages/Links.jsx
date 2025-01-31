@@ -77,7 +77,6 @@ const Links = () => {
       }
     }
   };
-  // console.log(allLinks);
   return (
     <>
       <Navbar />  
@@ -101,18 +100,18 @@ const Links = () => {
                 <tr key={link._id} className={styles.tablerow}>
                   <td style={{
                         width:"10vw",
-                        maxWidth: "10vw", // Fixed width
-                        whiteSpace: "nowrap", // Prevents text from wrapping
-                        overflow: "hidden", // Hides overflowing text
+                        maxWidth: "10vw",
+                        whiteSpace: "nowrap", 
+                        overflow: "hidden", 
                         textOverflow: "ellipsis",
                       }}>{formatDate(link.createdAt)}</td>
                     <td style={{
-                      width:"8vw",
+                      width:"10vw",
                       }}>
                       <span style={{display: "block", 
                         overflow: "hidden", 
-                        whiteSpace: "nowrap",  // Prevents text from wrapping
-                        textOverflow: "clip",  // Cuts off overflowing text
+                        whiteSpace: "nowrap",  
+                        textOverflow: "clip",  
                         maxWidth: "10vw",
                         }}>
                         {link.originalLink}
@@ -124,21 +123,20 @@ const Links = () => {
                       alignItems: "center", 
                       widht:"10vw", 
                       paddingRight:"0", 
-                      // height:"2rem",
                     }}>
                     <span
                       style={{
                         width:"10vw",
-                        maxWidth: "8vw", // Fixed width
-                        whiteSpace: "nowrap", // Prevents text from wrapping
-                        overflow: "hidden", // Hides overflowing text
+                        maxWidth: "8vw", 
+                        whiteSpace: "nowrap", 
+                        overflow: "hidden", 
                         textOverflow: "ellipsis",
                       }}
                     >{url}{link.shortLink}
                     </span>
                     <span
                       style={{
-                        width: "30px", // Fixed width for the copy button
+                        width: "30px", 
                         height: "30px",
                         backgroundColor: "rgba(255, 255, 255, 0.5)", 
                         marginRight:"0",
@@ -146,7 +144,7 @@ const Links = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         borderRadius: "5px",
-                        overflow: "hidden", // Hides anything outside the box
+                        overflow: "hidden", 
                         position: "relative",
                         cursor:"pointer",
                       }}
@@ -154,7 +152,7 @@ const Links = () => {
                       <RxCopy size={20} onClick={()=> handleCopyLink(startIndex + index)}/>
                     </span>
                   </td>
-                  <td>{link.remarks}</td>
+                  <td style={{width:"7vw"}}>{link.remarks}</td>
                   <td style={{textAlign:"center"}}>{link.clicks}</td>
                   <td style={{
                       color: link.status === "Active" ? "#1EB036" : "#B0901E",
