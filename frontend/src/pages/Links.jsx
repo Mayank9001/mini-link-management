@@ -99,7 +99,13 @@ const Links = () => {
             <tbody>
               {paginatedLinks.length > 0 ? (paginatedLinks.map((link, index) => (
                 <tr key={link._id} className={styles.tablerow}>
-                  <td>{formatDate(link.createdAt)}</td>
+                  <td style={{
+                        width:"10vw",
+                        maxWidth: "10vw", // Fixed width
+                        whiteSpace: "nowrap", // Prevents text from wrapping
+                        overflow: "hidden", // Hides overflowing text
+                        textOverflow: "ellipsis",
+                      }}>{formatDate(link.createdAt)}</td>
                     <td style={{
                       width:"8vw",
                       }}>
@@ -107,8 +113,7 @@ const Links = () => {
                         overflow: "hidden", 
                         whiteSpace: "nowrap",  // Prevents text from wrapping
                         textOverflow: "clip",  // Cuts off overflowing text
-                        width: "100%", 
-                        maxWidth: "8vw",
+                        maxWidth: "10vw",
                         }}>
                         {link.originalLink}
                       </span>
@@ -119,7 +124,7 @@ const Links = () => {
                       alignItems: "center", 
                       widht:"10vw", 
                       paddingRight:"0", 
-                      height:"2rem",
+                      // height:"2rem",
                     }}>
                     <span
                       style={{
@@ -129,7 +134,7 @@ const Links = () => {
                         overflow: "hidden", // Hides overflowing text
                         textOverflow: "ellipsis",
                       }}
-                    >{url}visit/{link.shortLink}
+                    >{url}{link.shortLink}
                     </span>
                     <span
                       style={{
@@ -150,9 +155,9 @@ const Links = () => {
                     </span>
                   </td>
                   <td>{link.remarks}</td>
-                  <td>{link.clicks}</td>
+                  <td style={{textAlign:"center"}}>{link.clicks}</td>
                   <td style={{
-                      color: link.status === "Active" ? "green" : "red",
+                      color: link.status === "Active" ? "#1EB036" : "#B0901E",
                     }}>
                     {link.status}
                   </td>

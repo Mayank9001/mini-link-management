@@ -4,6 +4,7 @@ import SideBar from '../componenets/SideBar'
 import styles from './Analytics.module.css'
 import { jwtDecode } from 'jwt-decode'
 import { getlogs } from '../services/logs.services'
+const url = import.meta.env.VITE_BACKEND_URL+"/visit/";
 
 const Analytics = () => {
   const isActive = {
@@ -88,36 +89,31 @@ const Analytics = () => {
             <tbody>
               {paginatedLogs.length > 0 ? (paginatedLogs.map((log) => (
                 <tr key={log._id} className={styles.tablerow}>
-                  <td>{formatDate(log.timestamp)}</td>
-                  <td style={{width:"8vw"}}>
+                  <td style={{
+                        width:"12vw",
+                        maxWidth: "12vw", // Fixed width
+                        whiteSpace: "nowrap", // Prevents text from wrapping
+                        overflow: "hidden", // Hides overflowing text
+                        textOverflow: "ellipsis",
+                      }}>{formatDate(log.timestamp)}</td>
+                  <td style={{width:"12vw"}}>
                     <span style={{display: "block", 
                       overflow: "hidden", 
                       whiteSpace: "nowrap",  // Prevents text from wrapping
                       textOverflow: "clip",  // Cuts off overflowing text
-                      width: "100%", 
-                      maxWidth: "8vw",
+                      maxWidth: "12vw",
                       }}>
                       {log.originalLink}
                     </span>
                   </td>
-                  <td style={{ position: "relative", 
-                    display: "flex", 
-                    alignItems: "center", 
-                    widht:"10vw", 
-                    paddingRight:"0",
-                    }}>
-                    <span
-                      style={{
-                        width:"10vw",
-                        maxWidth: "8vw", // Fixed width
-                        whiteSpace: "nowrap", // Prevents text from wrapping
-                        overflow: "hidden", // Hides overflowing text
-                        textOverflow: "ellipsis",
-                      }}
-                    >https://onrender.com/visit/{log.shortLink}
+                  <td style={{ maxWidth:"10vw",overflow: "hidden", 
+                      whiteSpace: "nowrap",  // Prevents text from wrapping
+                      textOverflow: "ellipsis",  // Cuts off overflowing text
+                      maxWidth: "12vw",}}>
+                    <span>{url}{log.shortLink}
                     </span>
                   </td>
-                  <td>{log.ipAddress}</td>
+                  <td style={{textAlign:"left"}}>{log.ipAddress}</td>
                   <td>{log.platform}  {log.deviceType}</td>
                 </tr>
               ))):

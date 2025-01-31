@@ -22,9 +22,6 @@
     border-radius: 10px;
     overflow: hidden;
 }
-.tablerow{
-    height: 2vh;
-}
 .tablerow2{
     height: 2vh;
     font-family: "Manrope";
@@ -36,6 +33,9 @@
 }
 .tablerow td{
     border-right: 2px solid #F8F8F8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .linkstable th, .linkstable td {
     padding: 12px;
@@ -46,9 +46,6 @@
     background-color: #f4f4f4;
     font-weight: bold;
 }
-/* .linkstable tr:hover {
-    background-color: #f1f1f1; */
-/* } */
 .actions {
     display:flex;
     justify-content: center;

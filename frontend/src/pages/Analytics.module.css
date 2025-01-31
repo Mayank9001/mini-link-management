@@ -28,6 +28,9 @@
 }
 .tablerow td{
     border-right: 2px solid #F8F8F8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .linkstable th, .linkstable td {
     padding: 12px;
