@@ -3,6 +3,7 @@ import Navbar from '../componenets/Navbar';
 import SideBar from '../componenets/SideBar';
 import { getAllLinks } from '../services/link.services'
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { PiCaretUpDown } from "react-icons/pi";
 import { MdEdit } from "react-icons/md";
 import { RxCopy } from "react-icons/rx";
 import styles from './Links.module.css'
@@ -20,6 +21,8 @@ const Links = () => {
   };
   const [allLinks, setAllLinks] = useState([]);
   const [linkId, setLinkId] = useState(null);
+  const [sortIndex, setSortIndex] = useState(-1);
+  const [status, setStatus] = useState("Active");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const getLinks = async ()=>{
@@ -45,7 +48,6 @@ const Links = () => {
         console.error("Invalid link ID:", index);
         return;
     }
-    
     navigator.clipboard.writeText(url+allLinks[index].shortLink)
       .then(() => {
         console.log(`Copied: ${allLinks[index].shortLink}`);
@@ -57,8 +59,25 @@ const Links = () => {
           });
       })
       .catch(err => console.error("Failed to copy:", err));
-    
   };
+  const handleDateSorting = () => {
+    setAllLinks(sortIndex===1 ? [...allLinks].sort((a,b)=>{
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      return dateA - dateB;
+    }): [...allLinks].sort((a,b)=>{
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      return dateB - dateA;
+    }))
+  };
+  const handleStatusSorting = () => {
+    setAllLinks([...allLinks].sort((a, b) => {
+      return status === "Inactive" 
+        ? a.status.localeCompare(b.status) // Sort "Active" first
+        : b.status.localeCompare(a.status); // Sort "Inactive" first
+    }));
+  };  
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const totalPages = Math.ceil(allLinks.length / itemsPerPage);
@@ -86,12 +105,12 @@ const Links = () => {
           <table className={styles.linkstable} style={{borderRight:"none"}}>
             <thead>
               <tr>
-                <th>Date</th>
+                <th style={{display:"flex", gap: "5vw"}}>Date <PiCaretUpDown onClick={()=>{setSortIndex(prev =>-1*prev);handleDateSorting();}} /></th>
                 <th>Original Link</th>
                 <th>Short Link</th>
                 <th>Remarks</th>
                 <th>Clicks</th>
-                <th>Status</th>
+                <th style={{display:"flex", gap: "1vw"}}>Status<PiCaretUpDown onClick={()=>{setStatus(status==="Inactive"?"Active":"Inactive");handleStatusSorting();}} /></th>
                 <th>Actions</th>
               </tr>
             </thead>

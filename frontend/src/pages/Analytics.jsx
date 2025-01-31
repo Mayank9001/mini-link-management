@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../componenets/Navbar'
 import SideBar from '../componenets/SideBar'
 import styles from './Analytics.module.css'
+import { PiCaretUpDown } from 'react-icons/pi'
 import { jwtDecode } from 'jwt-decode'
 import { getlogs } from '../services/logs.services'
 const url = import.meta.env.VITE_BACKEND_URL+"/visit/";
 
 const Analytics = () => {
+  const [sortIndex, setSortIndex] = useState(-1);
   const isActive = {
     dashboard :false,
     links :false,
@@ -52,6 +54,17 @@ const Analytics = () => {
   useEffect(()=>{
     getuser();
   }, []);
+  const handleDateSorting = () => {
+    setAllLogs(sortIndex===1 ? [...allLogs].sort((a,b)=>{
+      const dateA = new Date(a.timestamp);
+      const dateB = new Date(b.timestamp);
+      return dateA - dateB;
+    }): [...allLogs].sort((a,b)=>{
+      const dateA = new Date(a.timestamp);
+      const dateB = new Date(b.timestamp);
+      return dateB - dateA;
+    }))
+  };
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(allLogs.length / itemsPerPage);
@@ -79,7 +92,9 @@ const Analytics = () => {
           <table className={styles.linkstable} style={{borderRight:"none"}}>
             <thead>
               <tr>
-                <th>Timestamp</th>
+                <th style={{}}>Timestamp
+                  <PiCaretUpDown style={{marginLeft:"1vw"}} onClick={()=>{setSortIndex(prev =>-1*prev);handleDateSorting();}}/>
+                </th>
                 <th>Original Link</th>
                 <th>Short Link</th>
                 <th>ip address</th>
@@ -90,8 +105,8 @@ const Analytics = () => {
               {paginatedLogs.length > 0 ? (paginatedLogs.map((log) => (
                 <tr key={log._id} className={styles.tablerow}>
                   <td style={{
-                        width:"12vw",
-                        maxWidth: "12vw", 
+                        width:"10vw",
+                        maxWidth: "10vw", 
                         whiteSpace: "nowrap", 
                         overflow: "hidden", 
                         textOverflow: "ellipsis",
@@ -101,12 +116,12 @@ const Analytics = () => {
                       overflow: "hidden", 
                       whiteSpace: "nowrap",  
                       textOverflow: "clip",  
-                      maxWidth: "12vw",
+                      maxWidth: "13vw",
                       }}>
                       {log.originalLink}
                     </span>
                   </td>
-                  <td style={{ maxWidth: "12vw",
+                  <td style={{ maxWidth: "11vw",
                       wordWrap: "break-word",  
                       overflowWrap: "break-word", 
                       whiteSpace: "normal",
