@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 const Navbar = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState();
+    const [greetings, setGreetings] = useState("morning");
+    const [greetIcon, setGreetIcon] = useState("🌤️");
     const [islogout, setIsLogout] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const initials = (name) => {
@@ -35,8 +37,19 @@ const Navbar = () => {
         if (token) {
           try {
             const data = jwtDecode(token);
-            // console.log("Decoded Token Data:", data);
             setUser(data);
+            
+            const hours = new Date().getHours();
+            if (hours >= 0 && hours < 12) {
+                setGreetings("morning");
+                setGreetIcon("🌤️");
+            } else if (hours >= 12 && hours < 17) {
+                setGreetings("afternoon");
+                setGreetIcon("🌞");
+            } else {
+                setGreetings("evening");
+                setGreetIcon("🌃");
+            }
           } catch (error) {
             console.log("Failed to decode token:", error);
           }
@@ -52,11 +65,11 @@ const Navbar = () => {
         <div className={styles.main}>
             <div className={styles.greet}>
                 <div>
-                    <span className={styles.sun}>🌤️
+                    <span className={styles.sun}>{greetIcon}
                     </span>
                 </div>
                 <div className={styles.gm}>
-                    <span>Good morning, {user? user.name:""}</span>
+                    <span>Good {greetings}, {user? user.name:""}</span>
                     <br/>
                     <span className={styles.fDate}>{formattedDate}</span>
                 </div>
