@@ -5,7 +5,7 @@ import styles from './Analytics.module.css'
 import { PiCaretUpDown } from 'react-icons/pi'
 import { jwtDecode } from 'jwt-decode'
 import { getlogs } from '../services/logs.services'
-const url = import.meta.env.VITE_BACKEND_URL+"/visit/";
+const URL = import.meta.env.VITE_BACKEND_URL+"/visit/";
 
 const Analytics = () => {
   const [sortIndex, setSortIndex] = useState(-1);
@@ -126,7 +126,7 @@ const Analytics = () => {
                       overflowWrap: "break-word", 
                       whiteSpace: "normal",
                     }}>
-                    <span>{url}{log.shortLink}
+                    <span>{URL}{log.shortLink}
                     </span>
                   </td>
                   <td style={{textAlign:"left", width:"6vw"}}>{log.ipAddress}</td>

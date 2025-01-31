@@ -10,7 +10,7 @@ import styles from './Links.module.css'
 import EditModal from '../modals/EditModal';
 import DeleteModal from '../modals/DeleteModal';
 import { toast } from 'react-toastify';
-const url = import.meta.env.VITE_BACKEND_URL+"/visit/";
+const URL = import.meta.env.VITE_BACKEND_URL+"/visit/";
 
 const Links = () => {
   const isActive = {
@@ -48,7 +48,7 @@ const Links = () => {
         console.error("Invalid link ID:", index);
         return;
     }
-    navigator.clipboard.writeText(url+allLinks[index].shortLink)
+    navigator.clipboard.writeText(URL+allLinks[index].shortLink)
       .then(() => {
         console.log(`Copied: ${allLinks[index].shortLink}`);
         toast('Link Copied', {
@@ -151,7 +151,7 @@ const Links = () => {
                         overflow: "hidden", 
                         textOverflow: "ellipsis",
                       }}
-                    >{url}{link.shortLink}
+                    >{URL}{link.shortLink}
                     </span>
                     <span
                       style={{
