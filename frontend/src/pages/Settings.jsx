@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Navbar from '../componenets/Navbar';
-import SideBar from '../componenets/SideBar';
+import Navbar from '../components/Navbar';
+import Loading from '../components/Loading';
+import SideBar from '../components/SideBar';
 import styles from './Settings.module.css'
 import { jwtDecode } from 'jwt-decode'
 import { userUpdate } from '../services/user.services'
@@ -8,6 +9,7 @@ import AccountModal from '../modals/AccountModal';
 import { toast } from 'react-toastify'
 
 const Settings = () => {
+  const [loading, setLoading] = useState(false);
   const isActive = {
     dashboard :false,
     links :false,
@@ -67,28 +69,32 @@ const Settings = () => {
     <>
       <Navbar />  
       <SideBar isDashboard={isActive.dashboard} isSettings={isActive.settings} isLinks={isActive.links} isAnalytics={isActive.analytics} />
-      <div className={styles.main}>
-        <div className={styles.container}>
-          <div className={styles.ipt}>
-            <h3>Name</h3>
-            <input type='text' defaultValue={user?user.name:""} onChange={(e)=>setNewData({...newData, newName:e.target.value})}/>
-          </div>
-          <div className={`${styles.ipt}`}>
-            <h3>Email id</h3>
-            <input type='text' defaultValue={user?user.email:""} onChange={(e)=>setNewData({...newData, newEmail:e.target.value})}/>
-          </div>
-          <div className={`${styles.ipt} ${styles.mno}`}>
-            <h3>Mobile no.</h3>
-            <input type='text' defaultValue={user?user.mobileNo:""} onChange={(e)=>setNewData({...newData, newMobileNo:e.target.value})}/>
-          </div>
-          <div className={styles.save}>
-            <button onClick={handleSaveChange}>Save Changes</button>
-          </div>
-          <div className={styles.delete}>
-            <button onClick={()=>setIsModalOpen(true)}>Delete Account</button>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className={styles.main}>
+          <div className={styles.container}>
+            <div className={styles.ipt}>
+              <h3>Name</h3>
+              <input type='text' defaultValue={user?user.name:""} onChange={(e)=>setNewData({...newData, newName:e.target.value})}/>
+            </div>
+            <div className={`${styles.ipt}`}>
+              <h3>Email id</h3>
+              <input type='text' defaultValue={user?user.email:""} onChange={(e)=>setNewData({...newData, newEmail:e.target.value})}/>
+            </div>
+            <div className={`${styles.ipt} ${styles.mno}`}>
+              <h3>Mobile no.</h3>
+              <input type='text' defaultValue={user?user.mobileNo:""} onChange={(e)=>setNewData({...newData, newMobileNo:e.target.value})}/>
+            </div>
+            <div className={styles.save}>
+              <button onClick={handleSaveChange}>Save Changes</button>
+            </div>
+            <div className={styles.delete}>
+              <button onClick={()=>setIsModalOpen(true)}>Delete Account</button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
       {isModalOpen && <AccountModal onClose={()=>setIsModalOpen(false)} />}
     </>
   )

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../componenets/Navbar'
-import SideBar from '../componenets/SideBar'
+import Navbar from '../components/Navbar'
+import SideBar from '../components/SideBar'
 import styles from './Analytics.module.css'
 import { PiCaretUpDown } from 'react-icons/pi'
+import Loading from '../components/Loading';
 import { jwtDecode } from 'jwt-decode'
 import { getlogs } from '../services/logs.services'
 const URL = import.meta.env.VITE_BACKEND_URL+"/visit/";
 
 const Analytics = () => {
   const [sortIndex, setSortIndex] = useState(-1);
+  const [loading, setLoading] = useState(false);
   const isActive = {
     dashboard :false,
     links :false,
@@ -30,6 +32,7 @@ const Analytics = () => {
     }
   };
   const getAllLogs = async () => {
+    setLoading(true);
     try{
       const res = await getlogs();
       const data = await res.json();
@@ -37,6 +40,7 @@ const Analytics = () => {
     }catch(error){
       console.log(error);
     }
+    setLoading(false);
   };
   const formatDate = (isoString) => {
     const date = new Date(isoString);
@@ -87,121 +91,125 @@ const Analytics = () => {
     <>
       <Navbar />  
       <SideBar isDashboard={isActive.dashboard} isSettings={isActive.settings} isLinks={isActive.links} isAnalytics={isActive.analytics} />
-      <div className={styles.content}>
-        <div className={styles.tablecontainer}>
-          <table className={styles.linkstable} style={{borderRight:"none"}}>
-            <thead>
-              <tr>
-                <th style={{}}>Timestamp
-                  <PiCaretUpDown style={{marginLeft:"1vw"}} onClick={()=>{setSortIndex(prev =>-1*prev);handleDateSorting();}}/>
-                </th>
-                <th>Original Link</th>
-                <th>Short Link</th>
-                <th>ip address</th>
-                <th>User Device</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedLogs.length > 0 ? (paginatedLogs.map((log) => (
-                <tr key={log._id} className={styles.tablerow}>
-                  <td style={{
-                        width:"10vw",
-                        maxWidth: "10vw", 
-                        whiteSpace: "nowrap", 
-                        overflow: "hidden", 
-                        textOverflow: "ellipsis",
-                      }}>{formatDate(log.timestamp)}</td>
-                  <td style={{width:"12vw"}}>
-                    <span style={{display: "block", 
-                      overflow: "hidden", 
-                      whiteSpace: "nowrap",  
-                      textOverflow: "clip",  
-                      maxWidth: "13vw",
-                      }}>
-                      {log.originalLink}
-                    </span>
-                  </td>
-                  <td style={{ maxWidth: "11vw",
-                      wordWrap: "break-word",  
-                      overflowWrap: "break-word", 
-                      whiteSpace: "normal",
-                    }}>
-                    <span>{URL}{log.shortLink}
-                    </span>
-                  </td>
-                  <td style={{textAlign:"left", width:"6vw"}}>{log.ipAddress}</td>
-                  <td style={{width:"5vw",
-                      wordWrap: "break-word",
-                      overflowWrap: "break-word",
-                      whiteSpace: "normal",
-                    }}
-                  >
-                    {log.platform}  {log.deviceType}
-                  </td>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className={styles.content}>
+          <div className={styles.tablecontainer}>
+            <table className={styles.linkstable} style={{borderRight:"none"}}>
+              <thead>
+                <tr>
+                  <th style={{}}>Timestamp
+                    <PiCaretUpDown style={{marginLeft:"1vw"}} onClick={()=>{setSortIndex(prev =>-1*prev);handleDateSorting();}}/>
+                  </th>
+                  <th>Original Link</th>
+                  <th>Short Link</th>
+                  <th>ip address</th>
+                  <th>User Device</th>
                 </tr>
-              ))):
-              (
-                <tr className={styles.tablerow2}><td style={{
-                  border:"none"
-                  }}>No Data Available</td></tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-        {totalPages > 1 ? (
+              </thead>
+              <tbody>
+                {paginatedLogs.length > 0 ? (paginatedLogs.map((log) => (
+                  <tr key={log._id} className={styles.tablerow}>
+                    <td style={{
+                          width:"10vw",
+                          maxWidth: "10vw", 
+                          whiteSpace: "nowrap", 
+                          overflow: "hidden", 
+                          textOverflow: "ellipsis",
+                        }}>{formatDate(log.timestamp)}</td>
+                    <td style={{width:"12vw"}}>
+                      <span style={{display: "block", 
+                        overflow: "hidden", 
+                        whiteSpace: "nowrap",  
+                        textOverflow: "clip",  
+                        maxWidth: "13vw",
+                        }}>
+                        {log.originalLink}
+                      </span>
+                    </td>
+                    <td style={{ maxWidth: "11vw",
+                        wordWrap: "break-word",  
+                        overflowWrap: "break-word", 
+                        whiteSpace: "normal",
+                      }}>
+                      <span>{URL}{log.shortLink}
+                      </span>
+                    </td>
+                    <td style={{textAlign:"left", width:"6vw"}}>{log.ipAddress}</td>
+                    <td style={{width:"5vw",
+                        wordWrap: "break-word",
+                        overflowWrap: "break-word",
+                        whiteSpace: "normal",
+                      }}
+                    >
+                      {log.platform}  {log.deviceType}
+                    </td>
+                  </tr>
+                ))):
+                (
+                  <tr className={styles.tablerow2}><td style={{
+                    border:"none"
+                    }}>No Data Available</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          {totalPages > 1 ? (
+            <div className={styles.footer}>
+              <div className={styles.pagination}>
+                <button 
+                  className={styles.pageButton} 
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
+                  disabled={currentPage === 1}
+                >
+                  {"<"}
+                </button>
+                {getPaginationNumbers().map((num, index) => (
+                    <button
+                      key={index}
+                      className={`${styles.pageButton} ${num === currentPage ? styles.activePage : ""}`}
+                      onClick={() => typeof num === "number" && setCurrentPage(num)}
+                      disabled={num === "..."}
+                    >
+                      {num}
+                    </button>
+                  ))}
+                  <button
+                    className={styles.pageButton}
+                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                  >
+                    {">"}
+                  </button>
+              </div>
+            </div>
+          )
+        :(
           <div className={styles.footer}>
             <div className={styles.pagination}>
               <button 
                 className={styles.pageButton} 
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
-                disabled={currentPage === 1}
+                disabled
               >
                 {"<"}
               </button>
-              {getPaginationNumbers().map((num, index) => (
                   <button
-                    key={index}
-                    className={`${styles.pageButton} ${num === currentPage ? styles.activePage : ""}`}
-                    onClick={() => typeof num === "number" && setCurrentPage(num)}
-                    disabled={num === "..."}
+                    className={`${styles.pageButton} ${styles.activePage}`}
                   >
-                    {num}
+                    {1}
                   </button>
-                ))}
                 <button
                   className={styles.pageButton}
-                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                  disabled={currentPage === totalPages}
+                  disabled
                 >
                   {">"}
                 </button>
             </div>
           </div>
-        )
-      :(
-        <div className={styles.footer}>
-          <div className={styles.pagination}>
-            <button 
-              className={styles.pageButton} 
-              disabled
-            >
-              {"<"}
-            </button>
-                <button
-                  className={`${styles.pageButton} ${styles.activePage}`}
-                >
-                  {1}
-                </button>
-              <button
-                className={styles.pageButton}
-                disabled
-              >
-                {">"}
-              </button>
-          </div>
+        )}
         </div>
       )}
-      </div>
     </>
   )
 }
