@@ -134,7 +134,7 @@ input::placeholder{
         margin: 10px 0 10px 0;
     }
     .buttons button{
-        width: 10vw;
+        width: 20vw;
     }
     input::placeholder{
         font-size: 1rem;
