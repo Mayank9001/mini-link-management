@@ -79,9 +79,8 @@ const Login = () => {
                     <div className={styles.loginbtn}>
                         <button type='submit'>Login</button>
                     </div>
-                    <div className={styles.submit}>
-                        <p>Don't have an account? 
-                            <a onClick={()=>navigate("/signup")}>SignUp</a>
+                    <div className={styles.footer}>
+                        <p>Don't have an account ? <a onClick={()=>navigate("/signup")}>SignUp</a>
                         </p>
                     </div>
                 </form>

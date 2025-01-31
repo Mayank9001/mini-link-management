@@ -95,9 +95,8 @@ const Signup = () => {
                   <div className={styles.registerbtn}>
                       <button type='submit'>Register</button>
                   </div>
-                  <div className={styles.submit}>
-                      <p>Already have an account?  
-                          <a onClick={()=>navigate("/login")}>Login</a>
+                  <div className={styles.footer}>
+                      <p>Already have an account ? <a onClick={()=>navigate("/login")}>Login</a>
                       </p>
                   </div>
               </form>

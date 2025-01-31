@@ -38,7 +38,6 @@ const Links = () => {
             searchRef.current.focus(); 
         }
     }, [location]);
-    console.log(search);
     const initials = (name) => {
         const words = name.split(" ");
         if (words.length === 1) {
