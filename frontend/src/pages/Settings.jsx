@@ -28,7 +28,6 @@ const Settings = () => {
       if (token) {
         try {
           const data = jwtDecode(token);
-          // console.log("Decoded Token Data:", data);
           setUser(data);
           if(data){
             setNewData({
@@ -44,17 +43,14 @@ const Settings = () => {
     };
     
     const handleSaveChange = async () =>{
-      // console.log(newData);
       try {
         const res = await userUpdate(newData);
         const data = await res.json();
         if(res.status===200)
         {
-          // console.log(data.message);
           toast.success(data.message);
         }
         else{
-          // console.log(data.message);
           toast.error(data.message);
         }
       } catch (error) {
@@ -64,7 +60,6 @@ const Settings = () => {
     useEffect(() => {
       getuser();
     }, []);
-    // console.log(newData);
     return (
     <>
       <Navbar />  

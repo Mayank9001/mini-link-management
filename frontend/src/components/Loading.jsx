@@ -11,7 +11,7 @@ const Loading = () => {
         strokeColor="#1B48DA"
         animationDuration="0.75"
         ariaLabel="rotating-lines-loading"
-        wrapperStyle={{position:"relative", display: "flex", justifyContent: "center", alignItems: "center", height:"100vh"}}
+        wrapperStyle={{}}
         wrapperClass=""
     />
   )

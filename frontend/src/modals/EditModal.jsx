@@ -52,7 +52,7 @@ const EditModal = ({ id, onClose}) => {
 
     const handleInputChange = (field, value) => {
         setLinkData(prev => ({ ...prev, [field]: value }));
-        setErrors(prev => ({ ...prev, [field]: false })); // Reset error on change
+        setErrors(prev => ({ ...prev, [field]: false })); 
     };
     const handleUpdateLink = async (e) => {
         e.preventDefault();
@@ -67,7 +67,7 @@ const EditModal = ({ id, onClose}) => {
         try {
             const updatedData = {
                 ...linkData,
-                newExpirationDate: isToggle ? selectedDate : null, // Save expiration only if toggle is on
+                newExpirationDate: isToggle ? selectedDate : null, 
             };
             const res = await editLink(id, updatedData);
             const data = await res.json();

@@ -37,7 +37,7 @@ const CreateModal = ({onClose}) => {
 
     const handleInputChange = (field, value) => {
         setLinkData(prev => ({ ...prev, [field]: value }));
-        setErrors(prev => ({ ...prev, [field]: false })); // Reset error on change
+        setErrors(prev => ({ ...prev, [field]: false })); 
     };
 
     const handleCreateLink = async (e) => {

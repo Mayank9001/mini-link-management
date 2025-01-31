@@ -37,7 +37,6 @@ const Navbar = () => {
     const formattedDate = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(date);
     const handleLogout = () =>{
         localStorage.removeItem("token");
-        // console.log("Logged Out Successfully!!!");
         toast.info("Logged Out Successfully!!!");
         navigate('/login');
     };

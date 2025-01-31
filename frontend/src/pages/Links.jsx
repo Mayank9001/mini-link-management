@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react'
-// import Navbar from '../components/Navbar';
 import SideBar from '../components/SideBar';
 import { getAllLinks } from '../services/link.services'
 import { jwtDecode } from "jwt-decode";
@@ -142,8 +141,8 @@ const Links = () => {
     const handleStatusSorting = () => {
       setAllLinks([...allLinks].sort((a, b) => {
         return status === "Inactive" 
-          ? a.status.localeCompare(b.status) // Sort "Active" first
-          : b.status.localeCompare(a.status); // Sort "Inactive" first
+          ? a.status.localeCompare(b.status) 
+          : b.status.localeCompare(a.status); 
       }));
     };  
     const [currentPage, setCurrentPage] = useState(1);

@@ -38,7 +38,6 @@ const Login = () => {
             {
                 localStorage.setItem("token", data.token);
                 toast.success(data.message);
-                // alert(data.message);
                 navigate('/dashboard');
             }
             else{

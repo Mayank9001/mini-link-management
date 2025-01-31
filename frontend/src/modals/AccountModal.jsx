@@ -20,7 +20,6 @@ const AccountModal = ({onClose}) => {
         const data = await res.json();
         if(res.status===200)
         {
-            // console.log(data.message);
             localStorage.removeItem("token");
             toast.warn("Account Deleted SuccessFully😔!!");
             navigate('/login');
