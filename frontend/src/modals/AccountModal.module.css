@@ -1,7 +1,6 @@
 .main{
     display: grid;
     inset: 0;
-    /* height: 100vh; */
     z-index: 1;
     background-color: #00000080;
     position: fixed;
@@ -60,4 +59,20 @@ button{
 .yes{
     background-color: #1B48DA;
     color: #ffffff;
+}
+@media screen and (max-width:768px){
+    .main{
+        z-index: 5;
+    }
+    .container{
+        width: 80%;
+        height: 20%;
+    }
+    h3{
+        font-size: 1.8vh;
+    }
+    button{
+        height: 5vh;
+        font-size: 1.8vh;
+    }
 }

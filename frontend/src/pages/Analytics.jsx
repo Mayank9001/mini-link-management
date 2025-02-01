@@ -9,6 +9,16 @@ import { getlogs } from '../services/logs.services'
 const URL = import.meta.env.VITE_BACKEND_URL+"/visit/";
 
 const Analytics = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 768);
+  };
+
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
   const [sortIndex, setSortIndex] = useState(-1);
   const [loading, setLoading] = useState(false);
   const isActive = {
@@ -99,8 +109,8 @@ const Analytics = () => {
             <table className={styles.linkstable} style={{borderRight:"none"}}>
               <thead>
                 <tr>
-                  <th style={{}}>Timestamp
-                    <PiCaretUpDown style={{marginLeft:"1vw"}} onClick={()=>{setSortIndex(prev =>-1*prev);handleDateSorting();}}/>
+                  <th >Timestamp
+                    <PiCaretUpDown style={{marginLeft:"1%"}} onClick={()=>{setSortIndex(prev =>-1*prev);handleDateSorting();}}/>
                   </th>
                   <th>Original Link</th>
                   <th>Short Link</th>
@@ -119,7 +129,13 @@ const Analytics = () => {
                           textOverflow: "ellipsis",
                         }}>{formatDate(log.timestamp)}</td>
                     <td style={{width:"12vw"}}>
-                      <span style={{display: "block", 
+                      <span style={isMobile
+                        ? {
+                            maxWidth: "unset",
+                            overflowX: "auto",
+                            whiteSpace: "nowrap", // Allow horizontal scrolling
+                          }
+                        : {display: "block", 
                         overflow: "hidden", 
                         whiteSpace: "nowrap",  
                         textOverflow: "clip",  
@@ -128,7 +144,14 @@ const Analytics = () => {
                         {log.originalLink}
                       </span>
                     </td>
-                    <td style={{ maxWidth: "11vw",
+                    <td className={styles.short} style={ 
+                      isMobile
+                        ? {
+                            maxWidth: "unset",
+                            overflowX: "auto",
+                            whiteSpace: "nowrap", 
+                          }
+                        : { maxWidth: "11vw",
                         wordWrap: "break-word",  
                         overflowWrap: "break-word", 
                         whiteSpace: "normal",
@@ -137,7 +160,13 @@ const Analytics = () => {
                       </span>
                     </td>
                     <td style={{textAlign:"left", width:"6vw"}}>{log.ipAddress}</td>
-                    <td style={{width:"5vw",
+                    <td style={isMobile
+                      ? {
+                          maxWidth: "unset",
+                          overflowX: "auto",
+                          whiteSpace: "nowrap", // Allow horizontal scrolling
+                        }
+                      : {width:"5vw",
                         wordWrap: "break-word",
                         overflowWrap: "break-word",
                         whiteSpace: "normal",

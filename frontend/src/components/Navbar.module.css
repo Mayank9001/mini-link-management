@@ -12,17 +12,18 @@
 }
 .sun{
     margin: 0 5px 0 5px;
+    font-size: 20px;
 }
 .greet{
     margin-right: 5rem;
-    width: 20rem;
+    width: 30vw;
     height: 2.5rem;
     display: flex;
 }
 .gm{
     font-family: "Manrope";
     font-weight: 700;
-    font-size: 25px;
+    font-size: 1.5vw;
     margin: 0;
     line-height: 22px;
 }
@@ -34,8 +35,7 @@
 }
 .searchdiv{
     position: relative;
-    /* left: 7rem; */
-    margin-left: 10rem;
+    margin-left: 10vw;
     display: flex;
     gap: 1rem;
     height: 2.5rem;
@@ -89,9 +89,12 @@
     padding-left: 2.4rem;
     margin-left: -1rem;
 }
+.logout{
+    margin-left: 4vw;
+    margin-right: 1vw;
+}
 .logout button{
     background-color: #FDE48A;
-    margin-left: 4rem;
     border: none;
     width: 2.5rem;
     height: 2.5rem;
@@ -109,7 +112,7 @@
     position: absolute;
     bottom: 0.1rem;
     border: 1px solid #ECECF2;
-    right: 2.5rem;
+    right: 2vw;
     width: 7rem;
     height: 2rem;
     background-color: #ffffff;
@@ -126,3 +129,79 @@
     color: #000000;
     transition: 0.3s ease;
 }
+
+@media screen and (max-width:768px){
+    .main{
+        width: 100vw;
+        height: 10vh;
+        display: flex;
+        flex-direction: row;
+        position: sticky;
+        align-items: normal;
+        padding-top: 2vh;
+        float: top;
+    }
+    .greet{
+        position: relative;
+        top: 0;
+        margin:0;
+        width: 40vw;
+        height: 10vh;
+        display: flex;
+    }
+    .gm{
+        font-weight: 600;
+        font-size: 2vh;
+    }
+    .fDate{
+        font-size: 1.5vh;
+        margin-top: 0;
+    }
+    .searchdiv{
+        margin-left: 2vw;
+        gap: 1vw;
+        height: 10vh;
+        width: 40vw;
+    }
+    .createBtn{
+        position: fixed;
+        bottom: 12vh;
+        right: 5vw;
+    }
+    .createBtn button{
+        border-radius: 0.5rem;
+        height: 5vh;
+        width: 25vw;
+        font-size: 2.5vw;
+    }
+    .plusbtn{
+        font-size: 5vw;
+        margin-right: 5px;
+        margin-left: 0;
+    }
+    .search{
+        width: 100%;
+        height: 50%;
+    }
+    .search img{
+        position: relative;
+        width: 5vw;
+        height: 5vw;
+        left: 1rem;
+        top: 0.8rem;
+    }
+    .search input{
+        border-radius: 0.5rem;
+        border: 2px solid #ECECF2;
+        width: 100%;
+        font-size: 1rem;
+        padding-left: 2.4rem;
+        margin-left: -1rem;
+    }
+    .logoutBtn{
+        bottom: 0.5rem;
+        right: 2.5vw;
+        width: 20vw;
+        height: 3.5vh;
+    }
+} 

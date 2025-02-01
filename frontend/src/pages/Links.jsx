@@ -32,6 +32,16 @@ const Links = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const searchRef = useRef(null);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
     const location = useLocation();
     useEffect(() => {
         if (location.state?.focusSearch && searchRef.current) {
@@ -203,12 +213,12 @@ const Links = () => {
               <table className={styles.linkstable} style={{borderRight:"none"}}>
                 <thead>
                   <tr>
-                    <th style={{display:"flex", gap: "5vw"}}>Date <PiCaretUpDown onClick={()=>{setSortIndex(prev =>-1*prev);handleDateSorting();}} /></th>
+                    <th style={{display:"flex",height:"5vh", gap: "5vw", alignItems:"center", justifyContent:"center"}}>Date <PiCaretUpDown onClick={()=>{setSortIndex(prev =>-1*prev);handleDateSorting();}} /></th>
                     <th>Original Link</th>
                     <th>Short Link</th>
                     <th>Remarks</th>
                     <th>Clicks</th>
-                    <th style={{display:"flex", gap: "1vw"}}>Status<PiCaretUpDown onClick={()=>{setStatus(status==="Inactive"?"Active":"Inactive");handleStatusSorting();}} /></th>
+                    <th style={{display:"flex", gap: "1vw", justifyContent:"center"}}>Status<PiCaretUpDown onClick={()=>{setStatus(status==="Inactive"?"Active":"Inactive");handleStatusSorting();}} /></th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -225,7 +235,12 @@ const Links = () => {
                         <td style={{
                           width:"10vw",
                           }}>
-                          <span style={{display: "block", 
+                          <span style={isMobile
+                            ? {
+                                maxWidth: "15vw",
+                              }
+                            : 
+                            {display: "block", 
                             overflow: "hidden", 
                             whiteSpace: "nowrap",  
                             textOverflow: "clip",  

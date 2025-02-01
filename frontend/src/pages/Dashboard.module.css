@@ -46,8 +46,7 @@
     line-height: 1.5rem;
     color: #1B48DA;
     margin-top: 1rem;
-    margin-left: 1rem;
-
+    margin-left: 1rem;    
 }
 .chartcontainer {
     display: flex;
@@ -68,13 +67,13 @@
     gap: 1rem;
     text-align: left;
 }
+
 .devicelabel {
     width: 20%;
 }
 .barcontainer {
     flex-grow: 1;
     height: 20px;
-    /* overflow: hidden; */
     position: relative;
 }
 .bar {
@@ -84,4 +83,52 @@
 }
 .clickcount {
     width: 40px;
+}
+@media screen and (max-width:768px) {
+    .main{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 75vh;
+        gap: 0;
+        border-top: 0.2rem solid #F6F6F9;
+        border-left: 0.2rem solid #F6F6F9;
+    }
+    .clicks{
+        height: 12vh;
+    }
+    .clicks span{
+        margin-left: 15vw;
+        color: #1B48DA;
+    }
+    .chart{
+        flex-direction: column;
+        margin-left: 3vw;
+        height: 60vh;
+        height:fit-content;
+    }
+    .boxes{
+        border: 2px solid #ECECF2;
+        border-radius: 0.5rem;
+        width: 100%;
+    }
+    .title{
+        font-size: 2vh;
+        margin-left: 1rem;
+    }
+    .chartcontainer {
+        height: 20vh;
+        overflow-y: auto;
+    }
+    .devicelabel {
+        width: 20%;
+    }
+    .barcontainer {
+        flex-grow: 1;
+        height: 20px;
+        position: relative;
+    }
+    .datelabel{
+        width: 27%;
+    }
 }

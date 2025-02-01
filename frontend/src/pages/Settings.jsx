@@ -73,7 +73,7 @@ const Settings = () => {
               <h3>Name</h3>
               <input type='text' defaultValue={user?user.name:""} onChange={(e)=>setNewData({...newData, newName:e.target.value})}/>
             </div>
-            <div className={`${styles.ipt}`}>
+            <div className={styles.ipt}>
               <h3>Email id</h3>
               <input type='text' defaultValue={user?user.email:""} onChange={(e)=>setNewData({...newData, newEmail:e.target.value})}/>
             </div>
