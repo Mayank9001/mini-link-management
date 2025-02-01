@@ -320,7 +320,6 @@ th{
         width: 100%;
     }
     tr th:nth-child(6){
-        background-color: wheat;
         padding-top: 2.5vh;
     }
     .tablerow2{
