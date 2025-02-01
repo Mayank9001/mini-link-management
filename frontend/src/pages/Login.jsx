@@ -14,8 +14,8 @@ const Login = () => {
         }
     }, []);
     const [formData, setFormData] = useState({
-        email: "admin@gmail.com",
-        password:"admin123",
+        email: "",
+        password:"",
     });
     const [error, setError] = useState("");
     const validateInput = () => {
